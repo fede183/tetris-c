@@ -1,0 +1,9 @@
+{
+    "version": 4,
+    "vendor": {
+        "conan": {}
+    },
+    "include": [
+        "/home/federico/Documents/Projects/Exercises-In-C/SFML Projects/Tetris_C++/build/CMakePresets.json"
+    ]
+}

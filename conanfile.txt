@@ -1,0 +1,17 @@
+[requires]
+sfml/2.5.1@_/_
+
+[options]
+sfml/2.5.1@_/_:graphics=True
+sfml/2.5.1@_/_:window=True
+sfml/2.5.1@_/_:audio=True
+sfml/2.5.1@_/_:network=True
+sfml/2.5.1@_/_:shared=True
+sfml/2.5.1@_/_:fPIC=True
+
+[tool_requires]
+cmake/3.25.2
+
+[generators]
+CMakeDeps
+CMakeToolchain

@@ -1,0 +1,13 @@
+# SFML instalation: 
+
+sudo apt-get install libsfml-dev
+
+conan install . --output-folder=build --build=missing
+
+cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+
+cmake --build .
+
+make
+
+./Tetris_C++
