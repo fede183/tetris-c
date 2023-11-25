@@ -1,16 +1,14 @@
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-
 #include <functional>
 
-#include "src/button.cpp"
-#include "src/game.cpp"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_timer.h>
 
-using namespace std;
-using namespace sf;
+#include "src/button.c"
+#include "src/game.c"
 
-RenderWindow* window;
-RenderWindow* lost_message;
+SDL_Window* window;
+SDL_Window* lost_message;
 Font font;
 Texture texturePoint;
 Music music;
@@ -19,7 +17,7 @@ Game* game;
 const float delays_for_level[4] = {0.48, 0.43, 0.38, 0.33};
 
 void render_game_over_window() {
-    lost_message = new RenderWindow(VideoMode(display_lost_message_width, display_lost_message_heigth), "Game Over!");
+    lost_message = new SDL_Window(VideoMode(display_lost_message_width, display_lost_message_heigth), "Game Over!");
     
     Text text;
 
@@ -88,7 +86,11 @@ int main()
     if (!music.openFromFile("sounds/theme.wav"))
         throw("Error al cargar la música");
 
-    RenderWindow* window = new RenderWindow(VideoMode(display_width + display_side_block_width, display_heigth), "Tetris!");
+    SDL_Window* win = SDL_CreateWindow("Tetris!",
+                                       SDL_WINDOWPOS_CENTERED,
+                                       SDL_WINDOWPOS_CENTERED,
+                                       1000, 1000, 0);
+    SDL_Window* window = new SDL_Window(VideoMode(display_width + display_side_block_width, display_heigth), "Tetris!");
     Game* game = createGame();
 
     Sprite sprite(texturePoint);

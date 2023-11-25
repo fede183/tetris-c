@@ -1,5 +1,5 @@
-#include "piece.hpp"
-#include "color.hpp"
+#include "piece.h"
+#include "color.h"
 
 #ifndef POINT_BOARD_H
 #define POINT_BOARD_H

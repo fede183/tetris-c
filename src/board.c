@@ -1,11 +1,10 @@
 
-#include <iostream>
+#include <stdio.h>
 #include <stdbool.h>  
 
-#include "../classes/board.hpp"
-#include "../classes/point_board.hpp"
-#include "linked_list.cpp"
-#include "piece.cpp"
+#include "../classes/board.h"
+#include "../classes/point_board.h"
+#include "piece.c"
 
 bool equal(const PointForBoard& point1, const PointForBoard& point2)
 {

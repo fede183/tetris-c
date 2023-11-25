@@ -14,6 +14,6 @@ os.chdir(path + "/build")
 subprocess.run("cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release", shell=True)
 subprocess.run("cmake --build build", shell=True)
 subprocess.run("make", shell=True)
-subprocess.run("./Tetris_C++", shell=True)
+subprocess.run("./tetris-c", shell=True)
 
 os.chdir(path)

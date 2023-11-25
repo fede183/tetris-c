@@ -1,10 +1,11 @@
-#include <iterator>
-#include <iostream>
+#include "stdio.h"
+#include "stdbool.h"
 
-#include "../classes/piece.hpp"
-#include "../classes/config.hpp"
-#include "../classes/color.hpp"
-#include "random_number_generator.cpp"
+#include "../classes/piece.h"
+#include "../classes/config.h"
+#include "../classes/color.h"
+#include "color.c"
+#include "random_number_generator.c"
 
 Piece* createPiece() {
 
@@ -12,7 +13,7 @@ Piece* createPiece() {
 
     unsigned int piece = random_number_generator(0, 7);
     unsigned int colorInt = random_number_generator(0, 7);
-    color theColor = static_cast<color>(colorInt);
+    enum color theColor = intToEnum(colorInt);
 
     const unsigned int figures[7][4] = {
         0, 2, 4, 6, //I

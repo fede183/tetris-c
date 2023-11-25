@@ -1,7 +1,7 @@
-#include "../classes/config.hpp"
-#include "../classes/piece.hpp"
-#include "../classes/game.hpp"
-#include "board.cpp"
+#include "../classes/config.h"
+#include "../classes/piece.h"
+#include "../classes/game.h"
+#include "board.c"
 
 Game* createGame() {
     Game* newGame = (Game*) malloc(sizeof(Game));
