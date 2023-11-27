@@ -4,12 +4,7 @@ yay conan
 
 conan profile detect --force
 
-sudo bash -c "sudo cat <<EOT >> ~/.conan2/profiles/default 
-[conf]
-tools.system.package_manager:mode=install
-EOT"
-
-conan install . --output-folder=build --build=missing
+conan install . -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True --build=missing --output-folder=build
 
 cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
 
