@@ -1,14 +1,14 @@
-#include <stdlib.h>
+#include "stdlib.h"
 
 #include "point_board.h"
 #include "color.h"
 
 #ifndef BOARD_H
 #define BOARD_H
-struct Board
+typedef struct
 {
-    struct PointForBoard* board_rows;
+    PointForBoard* board_rows;
     size_t board_row_size;
     size_t board_column_size;
-};
+} Board;
 #endif // BOARD_H

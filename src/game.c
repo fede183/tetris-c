@@ -20,10 +20,9 @@ Game* createGame() {
 }
 
 void clean(Game* game) {
-    clean(game->board->board_rows);
     clean(game->board);
-    delete game->piece;
-    delete game;
+    free(game->piece);
+    free(game);
 }
 
 void move_left(Game* game) {
@@ -144,7 +143,7 @@ Point* get_all_points(Game* game) {
             unsigned int real_y = complete_vertical_squares - 1 - j;
             unsigned int position_x = column[i].x;
             unsigned int position_y = real_y;
-            color point_color = column[i].point_color;
+            enum color point_color = column[i].point_color;
 
             Point point;
             point.x = position_x;
@@ -156,10 +155,10 @@ Point* get_all_points(Game* game) {
             point_index++;
         }
 
-        delete column;
+        free(column);
     }
 
-    delete columns;
+    free(columns);
 
     for (unsigned int i = 0; i < 4; i++)
     {

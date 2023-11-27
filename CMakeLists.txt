@@ -1,11 +1,20 @@
-cmake_minimum_required (VERSION 3.22.1)
+cmake_minimum_required(VERSION 3.15)
+project(tetris-c CXX)
 
-project(Tetris_C++)
+find_package(SDL2 REQUIRED CONFIG)
+find_package(SDL2_image REQUIRED CONFIG)
+find_package(SDL2_ttf REQUIRED CONFIG)
 
-find_package(SFML REQUIRED)
+add_executable(tetris-c src/main.c)
 
-add_executable(${PROJECT_NAME} main.cpp)
+# Main SDL library for init
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main SDL2::SDL2-static)
 
-target_link_libraries(${PROJECT_NAME} sfml-graphics)
-target_link_libraries(${PROJECT_NAME} sfml-audio)
+
+# SDL image to make a surface (aka what we'll render)
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_image::SDL2_image-static)
+
+
+# SDL ttf so we can display hello world!
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_ttf::SDL2_ttf)
 

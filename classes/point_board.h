@@ -4,7 +4,7 @@
 #ifndef POINT_BOARD_H
 #define POINT_BOARD_H
 
-typedef struct PointForBoard
+typedef struct
 {
     int x;
     enum color point_color;

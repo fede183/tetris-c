@@ -1,8 +1,13 @@
 # SFML instalation: 
 
-sudo apt-get install libsfml-dev
+yay conan
 
 conan profile detect --force
+
+sudo bash -c "sudo cat <<EOT >> ~/.conan2/profiles/default 
+[conf]
+tools.system.package_manager:mode=install
+EOT"
 
 conan install . --output-folder=build --build=missing
 
