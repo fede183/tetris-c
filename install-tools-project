@@ -1,0 +1,5 @@
+#!/bin/sh
+
+yay conan
+
+conan profile detect --force
