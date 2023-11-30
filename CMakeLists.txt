@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(tetris-c CXX)
+project(tetris-c C)
 
 find_package(SDL2 REQUIRED CONFIG)
 find_package(SDL2_image REQUIRED CONFIG)
@@ -16,5 +16,5 @@ target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_image::SDL2_image-static)
 
 
 # SDL ttf so we can display hello world!
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_ttf::SDL2_ttf)
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_ttf::SDL2_ttf-static)
 

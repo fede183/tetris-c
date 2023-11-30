@@ -2,8 +2,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_timer.h>
 
-#include "src/button.c"
-#include "src/game.c"
+/* #include "button.c" */
+/* #include "game.c" */
 
 SDL_Window* window;
 SDL_Window* lost_message;
@@ -215,6 +215,6 @@ SDL_Window* lost_message;
 /*     return 0; */
 /* } */
 int main() {
-
+	printf("Hello World!");
 	return 0;
 }
