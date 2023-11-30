@@ -2,11 +2,12 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_timer.h>
 
-/* #include "button.c" */
-/* #include "game.c" */
+/* #include "button.c" *1/ */
+/* #include "game.c" *1/ */
+#include "../classes/config.h"
 
-SDL_Window* window;
-SDL_Window* lost_message;
+/* SDL_Window* window; */
+/* SDL_Window* lost_message; */
 /* Font font; */
 /* Texture texturePoint; */
 /* Music music; */
@@ -215,6 +216,18 @@ SDL_Window* lost_message;
 /*     return 0; */
 /* } */
 int main() {
+	SDL_Window* window = SDL_CreateWindow("Tetris!",
+                                       SDL_WINDOWPOS_CENTERED,
+                                       SDL_WINDOWPOS_CENTERED,
+                                       display_width + display_side_block_width, display_heigth, 0);
+	SDL_Event event;    // Event variable
+	SDL_Init(SDL_INIT_VIDEO); 
+	// Below while loop checks if the window has terminated using close in the
+	//  corner.
+	while(!(event.type == SDL_QUIT)){
+		SDL_Delay(10);  // setting some Delay
+		SDL_PollEvent(&event);  // Catching the poll event.
+	}	
 	printf("Hello World!");
 	return 0;
 }

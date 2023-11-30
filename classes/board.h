@@ -7,7 +7,7 @@
 #define BOARD_H
 typedef struct
 {
-    PointForBoard* board_rows;
+    PointForBoard** board_points;
     size_t board_row_size;
     size_t board_column_size;
 } Board;

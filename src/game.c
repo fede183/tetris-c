@@ -19,7 +19,7 @@ Game* createGame() {
     return newGame;
 }
 
-void clean(Game* game) {
+void cleanGame(Game* game) {
     clean(game->board);
     free(game->piece);
     free(game);
