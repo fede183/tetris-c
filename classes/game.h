@@ -1,6 +1,5 @@
 #include "board.h"
 #include "piece.h"
-#include "config.h"
 
 #ifndef GAME_H
 #define GAME_H

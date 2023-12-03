@@ -6,7 +6,7 @@
 Game* createGame() {
     Game* newGame = (Game*) malloc(sizeof(Game));
     // Declare Game
-    newGame->board = createBoard(complete_vertical_squares, horizontal_squares);
+    newGame->board = create_board(complete_vertical_squares, horizontal_squares);
     newGame->piece = createPiece();
     newGame->backout_piece = createPiece();
     copy(newGame->piece, newGame->backout_piece);
@@ -19,8 +19,8 @@ Game* createGame() {
     return newGame;
 }
 
-void cleanGame(Game* game) {
-    clean(game->board);
+void clean_game(Game* game) {
+    clean_board(game->board);
     free(game->piece);
     free(game);
 }
@@ -84,7 +84,7 @@ void check_state(Game* game) {
         copy(game->backout_piece, game->piece);
         add_piece(game->board, game->piece);
         // Check Board for complete lines
-        int complete_lines_quantity = delete_complete_lines(game->board);
+        int complete_lines_quantity = delete_all_complete_lines(game->board);
         const unsigned int scores[4] = {40, 100, 300, 1200};
 
         game->score += scores[complete_lines_quantity - 1];
@@ -109,9 +109,9 @@ unsigned int get_point_quantity(Game* game) {
     return point_quantity + 4;
 }
 
-Point* get_next_piece_points(Game* game) {
+PointOnBoard* get_next_piece_points(Game* game) {
 
-    Point* points = (Point*) malloc(sizeof(Point) * 4);
+    PointOnBoard* point = (Point*) malloc(sizeof(Point) * 4);
 
     for (unsigned int i = 0; i < 4; i++)
     {
@@ -126,44 +126,9 @@ Point* get_next_piece_points(Game* game) {
     return points;
 }
 
-Point* get_all_points(Game* game) {
+PointOnBoard* get_all_points(Game* game) {
 
-    PointForBoard** columns = get_columns(game->board);
-    unsigned int row_len = get_row_quantity(game->board);
-    unsigned int point_quantity = get_point_quantity(game);
-    Point* points = (Point*) malloc(sizeof(Point) * point_quantity);
-
-    unsigned int point_index = 0;
-    for (unsigned int j = 0; j < row_len; j++)
-    {
-        PointForBoard* column = columns[j];
-        unsigned int column_len = get_column_quantity(game->board, j);
-        for (unsigned int i = 0; i < column_len; i++)
-        {
-            unsigned int real_y = complete_vertical_squares - 1 - j;
-            unsigned int position_x = column[i].x;
-            unsigned int position_y = real_y;
-            enum color point_color = column[i].point_color;
-
-            Point point;
-            point.x = position_x;
-            point.y = position_y;
-            point.point_color = point_color;
-            
-            points[point_index] = point;
-
-            point_index++;
-        }
-
-        free(column);
-    }
-
-    free(columns);
-
-    for (unsigned int i = 0; i < 4; i++)
-    {
-        points[i + point_index] = game->piece->positions[i];
-    }
+    PointOnBoard* points = game->board->occupied_board_points;
 
     return points;
 }

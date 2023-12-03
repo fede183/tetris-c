@@ -2,6 +2,7 @@
 #include "stdbool.h"
 
 #include "../classes/piece.h"
+#include "../classes/point_on_board.h"
 #include "../classes/config.h"
 #include "../classes/color.h"
 #include "color.c"
@@ -36,7 +37,7 @@ Piece* createPiece() {
     return newPiece;
 }
 
-Piece* createPoint(Point positions[4]) {
+Piece* createPoint(PointOnBoard positions[4]) {
     Piece* newPiece = (Piece*) malloc(sizeof(Piece));
     for (unsigned int i = 0; i < 4; i++)
     {
@@ -52,7 +53,7 @@ void copy(Piece* from, Piece* to) {
     }
 }
 
-Point get_center_point(Piece* piece) {
+PointOnBoard get_center_point(Piece* piece) {
     return piece->positions[1];
 }
 

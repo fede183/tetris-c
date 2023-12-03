@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.15)
-project(tetris-c C)
+cmake_minimum_required(VERSION 3.27.9)
+project(tetris-c)
 
 find_package(SDL2 REQUIRED CONFIG)
 find_package(SDL2_image REQUIRED CONFIG)
@@ -15,7 +15,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main SDL2::SDL2-static)
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_image::SDL2_image-static)
 
 # SDL ttf so we can display hello world!
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_ttf::SDL2_ttf)
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_ttf)
 
 # SDL mixer for music
 # target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_mixer::SDL2_mixer-static)
