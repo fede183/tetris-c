@@ -48,7 +48,7 @@ void descend(Game* game) {
 }
 
 void rotate(Game* game) {
-    Point center_point = game->piece->positions[1];
+    PointOnBoard center_point = game->piece->positions[1];
     for (int i = 0; i < 4; i++) {
         unsigned int rotate_x = game->piece->positions[i].y - center_point.y;
         unsigned int rotate_y = game->piece->positions[i].x - center_point.x;         
@@ -111,11 +111,11 @@ unsigned int get_point_quantity(Game* game) {
 
 PointOnBoard* get_next_piece_points(Game* game) {
 
-    PointOnBoard* point = (Point*) malloc(sizeof(Point) * 4);
+    PointOnBoard* points = (PointOnBoard*) malloc(sizeof(PointOnBoard) * 4);
 
     for (unsigned int i = 0; i < 4; i++)
     {
-        Point point = game->next_piece->positions[i];
+        PointOnBoard point = game->next_piece->positions[i];
 
         point.x += next_piece_block_position_x + 2;
         point.y += next_piece_block_position_y;

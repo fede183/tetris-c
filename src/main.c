@@ -8,17 +8,17 @@ int main(int argc, char *argv[])
 {
 	app = (App*) malloc(sizeof(App));
 
-	initSDL();
+	init_SDL();
 
 	atexit(cleanup);
 
 	while (1)
 	{
-		prepareScene();
+		prepare_scene();
 
-		doInput();
+		do_input();
 
-		presentScene();
+		present_scene();
 
 		SDL_Delay(16);
 	}

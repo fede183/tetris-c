@@ -14,6 +14,7 @@ App* app;
 
 void cleanup();
 void init_SDL();
+void handle_input(SDL_Keycode);
 void do_input();
 void prepare_scene();
 void present_scene();
@@ -57,9 +58,16 @@ void init_SDL(void)
 }
 
 void cleanup() {
+	SDL_Quit();
 	SDL_DestroyRenderer(app->renderer);
 	SDL_DestroyWindow(app->window);
 	free(app);
+}
+
+void handle_input(SDL_Keycode code) {
+	if (code == SDLK_ESCAPE || code == SDLK_q) {
+		exit(0);
+	}
 }
 
 void do_input(void)
@@ -73,7 +81,9 @@ void do_input(void)
 			case SDL_QUIT:
 				exit(0);
 				break;
-
+			case SDL_KEYDOWN:
+				handle_input(event.key.keysym.sym);
+				break;
 			default:
 				break;
 		}
@@ -82,7 +92,7 @@ void do_input(void)
 
 void prepare_scene(void)
 {
-	SDL_SetRenderDrawColor(app->renderer, 96, 128, 255, 255);
+	SDL_SetRenderDrawColor(app->renderer, 96, 128, 12, 255);
 	SDL_RenderClear(app->renderer);
 }
 
