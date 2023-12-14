@@ -92,7 +92,7 @@ void do_input(void)
 
 void prepare_scene(void)
 {
-	SDL_SetRenderDrawColor(app->renderer, 96, 128, 12, 255);
+	SDL_SetRenderDrawColor(app->renderer, 96, 128, 128, 128);
 	SDL_RenderClear(app->renderer);
 }
 
