@@ -6,6 +6,7 @@
 #include <callback.h>
 
 #include "button.c"
+#include "text_box.c"
 #include "game.c"
 #include "../classes/app.h"
 #include "../classes/config.h"
@@ -35,9 +36,14 @@ void init_SDL(void)
 		exit(1);
 	}
 
+	if (TTF_Init() < 0) {
+		printf("Couldn't initialize TTF: %s\n", SDL_GetError());
+		exit(1);
+	}
+
 	app->window = SDL_CreateWindow("Tetris C", 
-                                       SDL_WINDOWPOS_CENTERED,
-                                       SDL_WINDOWPOS_CENTERED,
+                                       0,
+                                       0,
                                        display_width + display_side_block_width, display_heigth, windowFlags);
 
 	if (!app->window)
@@ -58,6 +64,7 @@ void init_SDL(void)
 }
 
 void cleanup() {
+	TTF_Quit();
 	SDL_Quit();
 	SDL_DestroyRenderer(app->renderer);
 	SDL_DestroyWindow(app->window);
@@ -92,12 +99,13 @@ void do_input(void)
 
 void prepare_scene(void)
 {
-	SDL_SetRenderDrawColor(app->renderer, 96, 128, 128, 128);
+	SDL_SetRenderDrawColor(app->renderer, 128, 128, 128, 10);
 	SDL_RenderClear(app->renderer);
 }
 
 void present_scene(void)
 {
+	init_text(app->renderer, "Score", 100, 100, 0, 0);
 	SDL_RenderPresent(app->renderer);
 }
 
