@@ -7,11 +7,13 @@
 
 #include "button.c"
 #include "text_box.c"
+#include "rectagle.c"
 #include "game.c"
 #include "../classes/app.h"
 #include "../classes/config.h"
 
 App* app;
+Game* game;
 
 void cleanup();
 void init_SDL();
@@ -44,11 +46,11 @@ void init_SDL(void)
 	app->window = SDL_CreateWindow("Tetris C", 
                                        0,
                                        0,
-                                       display_width + display_side_block_width, display_heigth, windowFlags);
+                                       display_width, display_heigth, windowFlags);
 
 	if (!app->window)
 	{
-		printf("Failed to open %d x %d window: %s\n", display_width + display_side_block_width, display_heigth, SDL_GetError());
+		printf("Failed to open %d x %d window: %s\n", display_width, display_heigth, SDL_GetError());
 		exit(1);
 	}
 
@@ -61,14 +63,20 @@ void init_SDL(void)
 		printf("Failed to create renderer: %s\n", SDL_GetError());
 		exit(1);
 	}
+	game = init_game(); 
 }
 
 void cleanup() {
 	TTF_Quit();
 	SDL_Quit();
-	SDL_DestroyRenderer(app->renderer);
-	SDL_DestroyWindow(app->window);
+	if (!app->renderer) {
+		SDL_DestroyRenderer(app->renderer);
+	}
+	if (!app->window) {
+		SDL_DestroyWindow(app->window);
+	}
 	free(app);
+	free(game);
 }
 
 void handle_input(SDL_Keycode code) {
@@ -105,7 +113,9 @@ void prepare_scene(void)
 
 void present_scene(void)
 {
-	init_text(app->renderer, "Score", 100, 100, 0, 0);
+	init_text(app->renderer, "Score", display_score_wigth, display_score_heigth, display_score_x, display_score_y);
+	init_rectagle(app->renderer, display_board_width, display_board_heigth, display_board_x, display_board_y);
+	init_rectagle(app->renderer, display_next_piece_block_width, display_next_piece_block_heigth, display_next_piece_block_position_x, display_next_piece_block_position_y);
 	SDL_RenderPresent(app->renderer);
 }
 

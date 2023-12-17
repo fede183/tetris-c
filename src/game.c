@@ -3,10 +3,10 @@
 #include "../classes/game.h"
 #include "board.c"
 
-Game* createGame() {
+Game* init_game() {
     Game* newGame = (Game*) malloc(sizeof(Game));
     // Declare Game
-    newGame->board = create_board(complete_vertical_squares, horizontal_squares);
+    newGame->board = create_board(visible_vertical_board + invisible_board, horizontal_board);
     newGame->piece = createPiece();
     newGame->backout_piece = createPiece();
     copy(newGame->piece, newGame->backout_piece);
@@ -68,7 +68,7 @@ void rotate(Game* game) {
 }
 
 bool is_game_over(Game* game) {
-    return get_row_quantity(game->board) > vertical_squares;
+    return get_row_quantity(game->board) > vertical_size;
 }
 
 void clean_for_cycle(Game* game) {
@@ -117,8 +117,8 @@ PointOnBoard* get_next_piece_points(Game* game) {
     {
         PointOnBoard point = game->next_piece->positions[i];
 
-        point.x += next_piece_block_position_x + 2;
-        point.y += next_piece_block_position_y;
+        point.x += next_piece_block_x + 2;
+        point.y += next_piece_block_y;
 
         points[i] = point;
     }

@@ -9,6 +9,15 @@ void _clean_text(TextBox* text_box) {
 
 void init_text(SDL_Renderer* renderer, char* text, float w, float h, float x, float y) {
 	TextBox* text_box = (TextBox*) malloc(sizeof(TextBox));
+	
+	SDL_Rect message_rect; 
+	message_rect.x = x; 
+	message_rect.y = y;
+	message_rect.w = w;
+	message_rect.h = h;
+
+	text_box->rect = message_rect;
+
 	text_box->font = TTF_OpenFont("../fonts/textFont.ttf", 24);
 	if (text_box->font == NULL) {
 		printf("Font load error");
@@ -30,15 +39,6 @@ void init_text(SDL_Renderer* renderer, char* text, float w, float h, float x, fl
 		printf("Texture load error: %s\n", SDL_GetError());
 		exit(0);
 	}
-
-	SDL_Rect message_rect; 
-	message_rect.x = x; 
-	message_rect.y = y;
-	message_rect.w = w;
-	message_rect.h = h;
-
-	text_box->rect = message_rect;
-
 	if (SDL_QueryTexture(text_box->message, NULL, NULL, &text_box->rect.w, &text_box->rect.h) < 0) {
 		printf("Query texture error: %s\n", SDL_GetError());
 		exit(0);
