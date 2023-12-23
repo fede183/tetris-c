@@ -6,7 +6,7 @@
 typedef struct
 {
     int x, y;
-    enum color point_color;
+    enum point_color point_color;
 } PointOnBoard;
 
 #endif // POINT_ON_BOARD_H

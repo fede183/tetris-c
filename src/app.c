@@ -114,8 +114,8 @@ void prepare_scene(void)
 void present_scene(void)
 {
 	init_text(app->renderer, "Score", display_score_wigth, display_score_heigth, display_score_x, display_score_y);
-	init_rectagle(app->renderer, display_board_width, display_board_heigth, display_board_x, display_board_y);
-	init_rectagle(app->renderer, display_next_piece_block_width, display_next_piece_block_heigth, display_next_piece_block_position_x, display_next_piece_block_position_y);
+	init_rectagle(app->renderer, display_board_width, display_board_heigth, display_board_x, display_board_y, (SDL_Color) black_color);
+	init_rectagle(app->renderer, display_next_piece_block_width, display_next_piece_block_heigth, display_next_piece_block_position_x, display_next_piece_block_position_y, (SDL_Color) black_color);
 	SDL_RenderPresent(app->renderer);
 }
 

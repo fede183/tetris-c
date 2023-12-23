@@ -1,6 +1,6 @@
 #include "../classes/color.h"
 
-enum color intToEnum(int value) {
+enum point_color intToEnum(int value) {
 	switch(value) {
 		case blue:
 			return blue;

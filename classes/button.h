@@ -9,7 +9,7 @@
 
 typedef struct {
     SDL_Rect draw_rect;    // dimensions of button
-    enum color color;
+    enum point_color color;
     bool pressed;
 } Button;
 

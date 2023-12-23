@@ -2,7 +2,7 @@
 #include "../classes/button.h"
 
 
-Button* create_button(int x, int y, int w, int h, enum color color) {
+Button* create_button(int x, int y, int w, int h, enum point_color color) {
 	Button* button = (Button*) malloc(sizeof(Button));
 	button->draw_rect.x = x;
 	button->draw_rect.y = y;

@@ -1,6 +1,7 @@
-# Tetris c in SDL2
+Tetris c in SDL2
+================
 
-## Tools
+# Tools
 
 - SDL2
 - conan package manager

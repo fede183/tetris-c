@@ -14,7 +14,7 @@ Piece* createPiece() {
 
     unsigned int piece = random_number_generator(0, 7);
     unsigned int colorInt = random_number_generator(0, 7);
-    enum color theColor = intToEnum(colorInt);
+    enum point_color theColor = intToEnum(colorInt);
 
     const unsigned int figures[7][4] = {
         0, 2, 4, 6, //I

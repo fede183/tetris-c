@@ -42,3 +42,7 @@
 #define display_score_heigth square_size*score_vertical
 #define display_score_x square_size*score_x
 #define display_score_y square_size*score_y
+
+// Colors
+#define black_color { .r = 0, .g = 0, .b = 0, .a = 255 }
+#define white_color { .r = 255, .g = 255, .b = 255, .a = 255 }
