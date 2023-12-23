@@ -1,49 +1,49 @@
 // Square base sizes
-#define square_size 20 
+#define SQUARE_SIZE 20 
 
-#define visible_vertical_board 20
-#define horizontal_board 10
-#define invisible_board 3
-#define header 2
-#define visible_board_x 1
-#define visible_board_y 1
+#define VISIBLE_VERTICAL_BOARD 20
+#define HORIZONTAL_BOARD 10
+#define INVISIBLE_BOARD 3
+#define HEADER 2
+#define FOOTER 1
+#define VISIBLE_BOARD_X 1
 
-#define next_piece_block_horizontal 6
-#define next_piece_block_vertical 7
-#define next_piece_block_x (horizontal_board + visible_board_x + 1)
-#define next_piece_block_y (header + invisible_board + 3)
+#define NEXT_PIECE_BLOCK_HORIZONTAL 6
+#define NEXT_PIECE_BLOCK_VERTICAL 7
+#define NEXT_PIECE_BLOCK_X (HORIZONTAL_BOARD + VISIBLE_BOARD_X + 1)
+#define NEXT_PIECE_BLOCK_Y (HEADER + INVISIBLE_BOARD + 3)
 
-#define horizontal_size (horizontal_board + next_piece_block_horizontal + visible_board_x + 2)
-#define vertical_size (visible_vertical_board + invisible_board + 1)
+#define HORIZONTAL_SIZE (HORIZONTAL_BOARD + NEXT_PIECE_BLOCK_HORIZONTAL + VISIBLE_BOARD_X + 2)
+#define VERTICAL_SIZE (VISIBLE_VERTICAL_BOARD + INVISIBLE_BOARD + HEADER + FOOTER)
 
-#define score_horizontal 5
-#define score_vertical 2
-#define score_x next_piece_block_x
-#define score_y (next_piece_block_y - 2)
+#define SCORE_HORIZONTAL 5
+#define SCORE_VERTICAL 2
+#define SCORE_X NEXT_PIECE_BLOCK_X
+#define SCORE_Y (NEXT_PIECE_BLOCK_Y - 2)
 
 // Display sizes
-#define display_width square_size*horizontal_size
-#define display_heigth square_size*vertical_size
+#define DISPLAY_WIDTH SQUARE_SIZE*HORIZONTAL_SIZE
+#define DISPLAY_HEIGTH SQUARE_SIZE*VERTICAL_SIZE
 
-#define display_board_width square_size*horizontal_board
-#define display_board_heigth square_size*visible_vertical_board
-#define display_board_x square_size*visible_board_x
-#define display_board_y square_size*visible_board_y
+#define DISPLAY_BOARD_WIDTH SQUARE_SIZE*HORIZONTAL_BOARD
+#define DISPLAY_BOARD_HEIGTH SQUARE_SIZE*VISIBLE_VERTICAL_BOARD
+#define DISPLAY_BOARD_X SQUARE_SIZE*VISIBLE_BOARD_X
+#define DISPLAY_BOARD_Y SQUARE_SIZE*(INVISIBLE_BOARD + HEADER)
 
-#define display_lost_message_width 500
-#define display_lost_message_heigth 200
+#define DISPLAY_LOST_MESSAGE_WIDTH 500
+#define DISPLAY_LOST_MESSAGE_HEIGTH 200
 
-#define display_next_piece_block_width square_size*next_piece_block_horizontal
-#define display_next_piece_block_heigth square_size*next_piece_block_vertical 
-#define display_next_piece_block_position_x square_size*next_piece_block_x
-#define display_next_piece_block_position_y square_size*next_piece_block_y
+#define DISPLAY_NEXT_PIECE_BLOCK_WIDTH SQUARE_SIZE*NEXT_PIECE_BLOCK_HORIZONTAL
+#define DISPLAY_NEXT_PIECE_BLOCK_HEIGTH SQUARE_SIZE*NEXT_PIECE_BLOCK_VERTICAL 
+#define DISPLAY_NEXT_PIECE_BLOCK_POSITION_X SQUARE_SIZE*NEXT_PIECE_BLOCK_X
+#define DISPLAY_NEXT_PIECE_BLOCK_POSITION_Y SQUARE_SIZE*NEXT_PIECE_BLOCK_Y
 
-#define display_score_wigth square_size*score_horizontal
-#define display_score_heigth square_size*score_vertical
-#define display_score_x square_size*score_x
-#define display_score_y square_size*score_y
+#define DISPLAY_SCORE_WIGTH SQUARE_SIZE*SCORE_HORIZONTAL
+#define DISPLAY_SCORE_HEIGTH SQUARE_SIZE*SCORE_VERTICAL
+#define DISPLAY_SCORE_X SQUARE_SIZE*SCORE_X
+#define DISPLAY_SCORE_Y SQUARE_SIZE*SCORE_Y
 
 // Colors
-#define black_color { .r = 0, .g = 0, .b = 0, .a = 255 }
-#define white_color { .r = 255, .g = 255, .b = 255, .a = 255 }
-#define red_color { .r = 255, .g = 0, .b = 0, .a = 255 }
+#define BLACK_COLOR { .r = 0, .g = 0, .b = 0, .a = 255 }
+#define WHITE_COLOR { .r = 255, .g = 255, .b = 255, .a = 255 }
+#define RED_COLOR { .r = 255, .g = 0, .b = 0, .a = 255 }

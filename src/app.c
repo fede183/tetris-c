@@ -48,11 +48,11 @@ void init_SDL(void)
 	app->window = SDL_CreateWindow("Tetris C", 
                                        0,
                                        0,
-                                       display_width, display_heigth, windowFlags);
+                                       DISPLAY_WIDTH, DISPLAY_HEIGTH, windowFlags);
 
 	if (!app->window)
 	{
-		printf("Failed to open %d x %d window: %s\n", display_width, display_heigth, SDL_GetError());
+		printf("Failed to open %d x %d window: %s\n", DISPLAY_WIDTH, DISPLAY_HEIGTH, SDL_GetError());
 		exit(1);
 	}
 
@@ -127,9 +127,9 @@ void prepare_scene(void)
 
 void present_scene(void)
 {
-	init_text(app->renderer, "Score", display_score_wigth, display_score_heigth, display_score_x, display_score_y);
-	init_rectagle(app->renderer, display_board_width, display_board_heigth, display_board_x, display_board_y, (SDL_Color) black_color);
-	init_rectagle(app->renderer, display_next_piece_block_width, display_next_piece_block_heigth, display_next_piece_block_position_x, display_next_piece_block_position_y, (SDL_Color) black_color);
+	init_text(app->renderer, "Score", DISPLAY_SCORE_WIGTH, DISPLAY_SCORE_HEIGTH, DISPLAY_SCORE_X, DISPLAY_SCORE_Y);
+	init_rectagle(app->renderer, DISPLAY_BOARD_WIDTH, DISPLAY_BOARD_HEIGTH, DISPLAY_BOARD_X, DISPLAY_BOARD_Y, (SDL_Color) BLACK_COLOR);
+	init_rectagle(app->renderer, DISPLAY_NEXT_PIECE_BLOCK_WIDTH, DISPLAY_NEXT_PIECE_BLOCK_HEIGTH, DISPLAY_NEXT_PIECE_BLOCK_POSITION_X, DISPLAY_NEXT_PIECE_BLOCK_POSITION_Y, (SDL_Color) BLACK_COLOR);
 
 	draw_game_state(game->piece);
 	SDL_RenderPresent(app->renderer);
@@ -143,6 +143,13 @@ void draw_piece() {
 	Piece* piece = game->piece;
 	for (unsigned int i = 0; i<4; i++) {
 		PointOnBoard point = piece->positions[i];
-		init_rectagle(app->renderer, square_size, square_size, square_size*point.x, square_size*point.y, (SDL_Color) red_color);
+		unsigned int display_x = SQUARE_SIZE*(point.x + 1);
+		unsigned int display_y = SQUARE_SIZE*(point.y+HEADER);
+
+		if (point.y < INVISIBLE_BOARD) {
+			continue;
+		}
+
+		init_rectagle(app->renderer, SQUARE_SIZE, SQUARE_SIZE, display_x, display_y, (SDL_Color) RED_COLOR);
 	}
 }
