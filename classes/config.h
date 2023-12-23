@@ -46,3 +46,4 @@
 // Colors
 #define black_color { .r = 0, .g = 0, .b = 0, .a = 255 }
 #define white_color { .r = 255, .g = 255, .b = 255, .a = 255 }
+#define red_color { .r = 255, .g = 0, .b = 0, .a = 255 }

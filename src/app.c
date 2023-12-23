@@ -21,6 +21,8 @@ void handle_input(SDL_Keycode);
 void do_input();
 void prepare_scene();
 void present_scene();
+void draw_game_state();
+void draw_piece();
 
 void init_SDL(void)
 {
@@ -83,6 +85,18 @@ void handle_input(SDL_Keycode code) {
 	if (code == SDLK_ESCAPE || code == SDLK_q) {
 		exit(0);
 	}
+	else if (code == SDLK_LEFT) {
+		move_left(game);
+	}
+	else if (code == SDLK_RIGHT) {
+		move_right(game);
+	}
+	else if (code == SDLK_DOWN) {
+		descend(game);
+	}
+	else if (code == SDLK_SPACE) {
+		rotate(game);
+	}
 }
 
 void do_input(void)
@@ -116,6 +130,19 @@ void present_scene(void)
 	init_text(app->renderer, "Score", display_score_wigth, display_score_heigth, display_score_x, display_score_y);
 	init_rectagle(app->renderer, display_board_width, display_board_heigth, display_board_x, display_board_y, (SDL_Color) black_color);
 	init_rectagle(app->renderer, display_next_piece_block_width, display_next_piece_block_heigth, display_next_piece_block_position_x, display_next_piece_block_position_y, (SDL_Color) black_color);
+
+	draw_game_state(game->piece);
 	SDL_RenderPresent(app->renderer);
 }
 
+void draw_game_state() {
+	draw_piece();
+}
+
+void draw_piece() {
+	Piece* piece = game->piece;
+	for (unsigned int i = 0; i<4; i++) {
+		PointOnBoard point = piece->positions[i];
+		init_rectagle(app->renderer, square_size, square_size, square_size*point.x, square_size*point.y, (SDL_Color) red_color);
+	}
+}
