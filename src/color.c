@@ -1,4 +1,4 @@
-#include "../classes/color.h"
+#include "classes/color.h"
 
 enum point_color intToEnum(int value) {
 	switch(value) {

@@ -1,10 +1,10 @@
 #include "stdio.h"
 #include "stdbool.h"
 
-#include "../classes/piece.h"
-#include "../classes/point_on_board.h"
-#include "../classes/config.h"
-#include "../classes/color.h"
+#include "classes/piece.h"
+#include "classes/point_on_board.h"
+#include "classes/config.h"
+#include "classes/color.h"
 #include "color.c"
 #include "random_number_generator.c"
 

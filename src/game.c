@@ -1,6 +1,6 @@
-#include "../classes/config.h"
-#include "../classes/piece.h"
-#include "../classes/game.h"
+#include "classes/config.h"
+#include "classes/piece.h"
+#include "classes/game.h"
 #include "board.c"
 
 Game* init_game() {
@@ -8,8 +8,6 @@ Game* init_game() {
     // Declare Game
     newGame->board = create_board(VISIBLE_VERTICAL_BOARD + INVISIBLE_BOARD, HORIZONTAL_BOARD);
     newGame->piece = createPiece();
-    newGame->backout_piece = createPiece();
-    copy(newGame->piece, newGame->backout_piece);
     newGame->next_piece = createPiece();
 
     newGame->score = 0;
@@ -20,31 +18,52 @@ Game* init_game() {
 }
 
 void clean_game(Game* game) {
-    clean_board(game->board);
-    free(game->piece);
-    free(game);
+    	clean_board(game->board);
+    	free(game->piece);
+    	free(game);
+}
+
+void check_state(Game* game) {
+    if (has_colitions_bottom_or_remains(game->board, game->piece)) {
+        add_piece(game->board, game->piece);
+        // Check Board for complete lines
+        int complete_lines_quantity = delete_all_complete_lines(game->board);
+        const unsigned int scores[4] = {40, 100, 300, 1200};
+
+        game->score += scores[complete_lines_quantity - 1];
+        game->complete_lines += complete_lines_quantity;
+
+        // Get next piece
+        copy(game->next_piece, game->piece);
+        game->next_piece = createPiece();
+    }
 }
 
 void move_left(Game* game) {
-    for (int i = 0; i < 4; i++) {
-        game->piece->positions[i].x -= 1;
-    }
-    if (has_colitions_border_or_remains(game->board, game->piece)) 
-        copy(game->backout_piece, game->piece);
+	Piece piece_copy = *(game->piece);
+    	for (int i = 0; i < 4; i++) {
+        	piece_copy.positions[i].x -= 1;
+	}
+    	if (!has_colitions_border_or_remains(game->board, &piece_copy)) {
+		copy(&piece_copy, game->piece);
+	}
 }
 
 void move_right(Game* game) {
-    for (int i = 0; i < 4; i++) {
-        game->piece->positions[i].x += 1;
-    }
-    if (has_colitions_border_or_remains(game->board, game->piece)) 
-        copy(game->backout_piece, game->piece);
+	Piece piece_copy = *(game->piece);
+    	for (int i = 0; i < 4; i++) {
+		piece_copy.positions[i].x += 1;
+	}
+    	if (!has_colitions_border_or_remains(game->board, &piece_copy)) {
+		copy(&piece_copy, game->piece);
+	}
 }
 
 void descend(Game* game) {
-    for (int i = 0; i < 4; i++) {
-        game->piece->positions[i].y += 1;
-    }
+	for (int i = 0; i < 4; i++) {
+ 		game->piece->positions[i].y += 1;
+    	}
+	check_state(game);
 }
 
 void rotate(Game* game) {
@@ -76,25 +95,6 @@ void clean_for_cycle(Game* game) {
         game->complete_lines -= 10;
         game->level += 1;
     } 
-    copy(game->piece, game->backout_piece);
-}
-
-void check_state(Game* game) {
-    if (has_colitions_bottom_or_remains(game->board, game->piece)) {
-        copy(game->backout_piece, game->piece);
-        add_piece(game->board, game->piece);
-        // Check Board for complete lines
-        int complete_lines_quantity = delete_all_complete_lines(game->board);
-        const unsigned int scores[4] = {40, 100, 300, 1200};
-
-        game->score += scores[complete_lines_quantity - 1];
-        game->complete_lines += complete_lines_quantity;
-
-        // Get next piece
-        copy(game->next_piece, game->piece);
-        game->next_piece = createPiece();
-        copy(game->piece, game->backout_piece);
-    }
 }
 
 unsigned int get_point_quantity(Game* game) {

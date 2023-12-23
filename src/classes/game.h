@@ -7,7 +7,6 @@ typedef struct
 {
     Board* board;
     Piece* piece;
-    Piece* backout_piece;
     Piece* next_piece;
     unsigned int score, level, complete_lines;
 } Game;

@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdbool.h>  
 
-#include "../classes/board.h"
-#include "../classes/point_on_board.h"
+#include "classes/board.h"
+#include "classes/point_on_board.h"
 #include "piece.c"
 
 bool equal(const PointOnBoard* point1, const PointOnBoard* point2)
@@ -62,7 +62,6 @@ void add_piece(Board* board, Piece* piece) {
         add_point(board, piece->positions[i]);
     }
 }
-
 
 bool has_colitions_bottom_or_remains(Board* board, Piece* piece) {
     bool has_colitions_top = false;

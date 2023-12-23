@@ -1,5 +1,5 @@
 #include <SDL2/SDL.h>
-#include "../classes/color.h"
+#include "classes/color.h"
 
 void init_rectagle(SDL_Renderer* renderer, float w, float h, float x, float y, SDL_Color color) {
 	

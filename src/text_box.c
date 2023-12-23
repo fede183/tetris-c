@@ -1,4 +1,4 @@
-#include "../classes/text_box.h"
+#include "classes/text_box.h"
 
 void _clean_text(TextBox* text_box) {
 	SDL_FreeSurface(text_box->surface);

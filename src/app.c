@@ -9,8 +9,8 @@
 #include "text_box.c"
 #include "rectagle.c"
 #include "game.c"
-#include "../classes/app.h"
-#include "../classes/config.h"
+#include "classes/app.h"
+#include "classes/config.h"
 
 App* app;
 Game* game;

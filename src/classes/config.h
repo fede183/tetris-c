@@ -3,8 +3,8 @@
 
 #define VISIBLE_VERTICAL_BOARD 20
 #define HORIZONTAL_BOARD 10
-#define INVISIBLE_BOARD 3
-#define HEADER 2
+#define INVISIBLE_BOARD 4
+#define HEADER 1
 #define FOOTER 1
 #define VISIBLE_BOARD_X 1
 

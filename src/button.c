@@ -1,5 +1,5 @@
 #include <SDL2/SDL.h>
-#include "../classes/button.h"
+#include "classes/button.h"
 
 
 Button* create_button(int x, int y, int w, int h, enum point_color color) {
