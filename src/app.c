@@ -65,20 +65,26 @@ void init_SDL(void)
 		printf("Failed to create renderer: %s\n", SDL_GetError());
 		exit(1);
 	}
+
+	app->score = init_text(DISPLAY_SCORE_WIGTH, DISPLAY_SCORE_HEIGTH, DISPLAY_SCORE_X, DISPLAY_SCORE_Y);
+
 	game = init_game(); 
 }
 
 void cleanup() {
-	TTF_Quit();
-	SDL_Quit();
-	if (!app->renderer) {
+	if (app->score) {
+		clean_text(app->score);
+	}
+	if (app->renderer) {
 		SDL_DestroyRenderer(app->renderer);
 	}
-	if (!app->window) {
+	if (app->window) {
 		SDL_DestroyWindow(app->window);
 	}
 	free(app);
-	free(game);
+	clean_game(game);
+	TTF_Quit();
+	SDL_Quit();
 }
 
 void handle_input(SDL_Keycode code) {
@@ -96,8 +102,7 @@ void handle_input(SDL_Keycode code) {
 	}
 	else if (code == SDLK_SPACE) {
 		rotate(game);
-	}
-}
+	}}
 
 void do_input(void)
 {
@@ -127,7 +132,7 @@ void prepare_scene(void)
 
 void present_scene(void)
 {
-	init_text(app->renderer, "Score", DISPLAY_SCORE_WIGTH, DISPLAY_SCORE_HEIGTH, DISPLAY_SCORE_X, DISPLAY_SCORE_Y);
+	show_text(app->score, app->renderer, "Score");
 	init_rectagle(app->renderer, DISPLAY_BOARD_WIDTH, DISPLAY_BOARD_HEIGTH, DISPLAY_BOARD_X, DISPLAY_BOARD_Y, (SDL_Color) BLACK_COLOR);
 	init_rectagle(app->renderer, DISPLAY_NEXT_PIECE_BLOCK_WIDTH, DISPLAY_NEXT_PIECE_BLOCK_HEIGTH, DISPLAY_NEXT_PIECE_BLOCK_POSITION_X, DISPLAY_NEXT_PIECE_BLOCK_POSITION_Y, (SDL_Color) BLACK_COLOR);
 
