@@ -1,5 +1,9 @@
 #!/bin/sh
 
+[ -d /build ] && rm -rf build
+
+mkdir build
+
 conan install . -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True --build=missing --output-folder=build
 
 (cd build/;

@@ -23,6 +23,8 @@ void prepare_scene();
 void present_scene();
 void draw_game_state();
 void draw_piece();
+void draw_occupied_points();
+void draw_point();
 
 void init_SDL(void)
 {
@@ -142,19 +144,34 @@ void present_scene(void)
 
 void draw_game_state() {
 	draw_piece();
+	draw_occupied_points();
 }
 
 void draw_piece() {
 	Piece* piece = game->piece;
 	for (unsigned int i = 0; i<4; i++) {
 		PointOnBoard point = piece->positions[i];
-		unsigned int display_x = SQUARE_SIZE*(point.x + 1);
-		unsigned int display_y = SQUARE_SIZE*(point.y+HEADER);
-
-		if (point.y < INVISIBLE_BOARD) {
-			continue;
-		}
-
-		init_rectagle(app->renderer, SQUARE_SIZE, SQUARE_SIZE, display_x, display_y, (SDL_Color) RED_COLOR);
+		draw_point(point);
 	}
+}
+
+void draw_occupied_points() {
+	PointOnBoard* points = game->board->occupied_board_points;
+	unsigned int points_size = game->board->occupied_board_points_size;
+
+	for (unsigned int i = 0; i<points_size; i++) {
+		PointOnBoard point = points[i];
+		draw_point(point);
+	}
+}
+
+void draw_point(PointOnBoard point) {
+	unsigned int display_x = SQUARE_SIZE*(point.x + 1);
+	unsigned int display_y = SQUARE_SIZE*(point.y+HEADER);
+
+	if (point.y < INVISIBLE_BOARD) {
+		return;
+	}
+
+	init_rectagle(app->renderer, SQUARE_SIZE, SQUARE_SIZE, display_x, display_y, (SDL_Color) RED_COLOR);
 }

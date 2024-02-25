@@ -23,8 +23,15 @@ void clean_game(Game* game) {
     	free(game);
 }
 
+void _ascend(Game* game) {
+	for (int i = 0; i < 4; i++) {
+ 		game->piece->positions[i].y -= 1;
+    	}
+}
+
 void check_state(Game* game) {
     if (has_colitions_bottom_or_remains(game->board, game->piece)) {
+	_ascend(game);
         add_piece(game->board, game->piece);
         // Check Board for complete lines
         int complete_lines_quantity = delete_all_complete_lines(game->board);
