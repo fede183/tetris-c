@@ -143,12 +143,25 @@ void present_scene(void)
 }
 
 void draw_game_state() {
-	draw_piece();
+	Piece* piece = game->piece;
+	Piece* next_piece = game->next_piece;
+	Piece* next_piece_copy = (Piece*) malloc(sizeof(Piece));
+	copy(next_piece, next_piece_copy);
+	
+	for (unsigned int i = 0; i<4; i++) {
+		PointOnBoard point = next_piece_copy->positions[i];
+		point.y = point.y + NEXT_PIECE_BLOCK_Y + 1;
+		point.x = point.x + NEXT_PIECE_BLOCK_X + 1;
+		draw_point(point);
+	}
+	
+	draw_piece(piece);
+	draw_piece(next_piece_copy);
 	draw_occupied_points();
+	free(next_piece_copy);
 }
 
-void draw_piece() {
-	Piece* piece = game->piece;
+void draw_piece(Piece* piece) {
 	for (unsigned int i = 0; i<4; i++) {
 		PointOnBoard point = piece->positions[i];
 		draw_point(point);
