@@ -102,6 +102,30 @@ bool has_colitions_border_or_remains(Board* board, Piece* piece) {
     return has_colitions_border_or_remains;
 }
 
+bool has_colitions_border_left(Board* board, Piece* piece) {
+    bool has_colitions_border_left = false;
+    for (unsigned int i = 0; i < 4; i++)
+    {
+        PointOnBoard point = piece->positions[i];
+        has_colitions_border_left = has_colitions_border_left || 
+        !(0 <= point.x);
+    }
+
+    return has_colitions_border_left;
+}
+
+bool has_colitions_border_right(Board* board, Piece* piece) {
+    bool has_colitions_border_right = false;
+    for (unsigned int i = 0; i < 4; i++)
+    {
+        PointOnBoard point = piece->positions[i];
+        has_colitions_border_right = has_colitions_border_right || 
+        !(point.x < board->board_column_size);
+    }
+
+    return has_colitions_border_right;
+}
+
 bool delete_line_if_complete(Board* board, unsigned int row) {
 	bool is_row_complete = true;
 	for (int column = 0; column < board->board_column_size; column++) {
@@ -116,13 +140,10 @@ bool delete_line_if_complete(Board* board, unsigned int row) {
 
 	PointOnBoard* new_points = (PointOnBoard*) malloc(sizeof(PointOnBoard) * (board->occupied_board_points_size - board->board_column_size));
 	
-	int current_point_index = 0;
-
 	for (int index = 0; index < board->occupied_board_points_size; index++) {
 		if (board->occupied_board_points[index].y != row) {
 			PointOnBoard point = board->occupied_board_points[index];
 			new_points[index] = point;
-			current_point_index++;
 		}
 		if (board->occupied_board_points[index].y > row) {
 			new_points[index].y = new_points[index].y - 1;
@@ -131,7 +152,7 @@ bool delete_line_if_complete(Board* board, unsigned int row) {
 
 	free(board->occupied_board_points);
 	board->occupied_board_points = new_points;
-	board->occupied_board_points_size--;
+	board->occupied_board_points_size = board->occupied_board_points_size - board->board_column_size;
 	return true;
 }
 

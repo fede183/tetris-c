@@ -66,6 +66,20 @@ void move_right(Game* game) {
 	}
 }
 
+void _move_left_no_colitions(Game* game) {
+	Piece* piece = game->piece;
+    	for (int i = 0; i < 4; i++) {
+		piece->positions[i].x -= 1;
+	}
+}
+
+void _move_right_no_colitions(Game* game) {
+	Piece* piece = game->piece;
+    	for (int i = 0; i < 4; i++) {
+		piece->positions[i].x += 1;
+	}
+}
+
 void descend(Game* game) {
 	for (int i = 0; i < 4; i++) {
  		game->piece->positions[i].y += 1;
@@ -80,11 +94,14 @@ void rotate(Game* game) {
         unsigned int rotate_y = game->piece->positions[i].x - center_point.x;         
         game->piece->positions[i].x = center_point.x - rotate_x;
         game->piece->positions[i].y =  center_point.y + rotate_y;
-
     }
 
-    while (has_colitions_border_or_remains(game->board, game->piece)) {
-        move_right(game);
+    while (has_colitions_border_left(game->board, game->piece)) {
+	_move_right_no_colitions(game);
+    }
+
+    while (has_colitions_border_right(game->board, game->piece)) {
+	_move_left_no_colitions(game);
     }
 
     while (has_colitions_top(game->piece)) {
