@@ -132,10 +132,9 @@ bool delete_line_if_complete(Board* board, unsigned int row) {
 		PointOnBoard current_point;
 		current_point.y = row;
 		current_point.x = column;
-		is_row_complete = is_row_complete && has_point(board, current_point);
-	}
-	if (!is_row_complete) {
-		return false;
+		if (!has_point(board, current_point)) {
+			return false;
+		}
 	}
 
 	PointOnBoard* new_points = (PointOnBoard*) malloc(sizeof(PointOnBoard) * (board->occupied_board_points_size - board->board_column_size));
@@ -146,7 +145,7 @@ bool delete_line_if_complete(Board* board, unsigned int row) {
 			new_points[index] = point;
 		}
 		if (board->occupied_board_points[index].y > row) {
-			new_points[index].y = new_points[index].y - 1;
+			new_points[index].y += 1;
 		}
 	}
 

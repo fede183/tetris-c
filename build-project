@@ -1,14 +1,12 @@
 #!/bin/sh
 
-[ -d /build ] && rm -rf build
+[ -d build ] && rm -rf build
 
-mkdir build
-
-conan install . -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True --build=missing --output-folder=build
+conan install . -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True --build=missing --output-folder=build --settings=build_type=Debug
 
 (cd build/;
 
-cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release;
+cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Debug;
 
 cmake --build .;
 
