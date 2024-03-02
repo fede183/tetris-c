@@ -2,7 +2,6 @@
 #include <SDL2/SDL_timer.h>
 
 #include "app.c"
-/* #include "game.c" *1/ */
 
 int main(int argc, char *argv[])
 {
@@ -10,15 +9,13 @@ int main(int argc, char *argv[])
 
 	init_SDL();
 
-	atexit(cleanup);
-
-	while (1)
+	while (!is_quit())
 	{
 		prepare_scene();
 
-		do_input();
-
 		present_scene();
+
+		do_input();
 
 		SDL_Delay(16);
 	}

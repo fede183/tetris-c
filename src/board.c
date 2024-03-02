@@ -136,22 +136,21 @@ bool delete_line_if_complete(Board* board, unsigned int row) {
 			return false;
 		}
 	}
-
-	PointOnBoard* new_points = (PointOnBoard*) malloc(sizeof(PointOnBoard) * (board->occupied_board_points_size - board->board_column_size));
+	unsigned int new_size = board->occupied_board_points_size - board->board_column_size;
+	PointOnBoard* new_points = (PointOnBoard*) malloc(sizeof(PointOnBoard) * new_size);
 	
 	for (int index = 0; index < board->occupied_board_points_size; index++) {
 		if (board->occupied_board_points[index].y != row) {
-			PointOnBoard point = board->occupied_board_points[index];
-			new_points[index] = point;
+			new_points[index] = board->occupied_board_points[index];
 		}
-		if (board->occupied_board_points[index].y > row) {
+		if (board->occupied_board_points[index].y < row) {
 			new_points[index].y += 1;
 		}
 	}
 
 	free(board->occupied_board_points);
 	board->occupied_board_points = new_points;
-	board->occupied_board_points_size = board->occupied_board_points_size - board->board_column_size;
+	board->occupied_board_points_size = new_size;
 	return true;
 }
 

@@ -1,3 +1,4 @@
+#include <stdbool.h>  
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_timer.h>
@@ -14,6 +15,7 @@
 
 App* app;
 Game* game;
+bool quit;
 
 void cleanup();
 void init_SDL();
@@ -28,8 +30,6 @@ void draw_point();
 
 void init_SDL(void)
 {
-	atexit(cleanup);
-
 	int rendererFlags, windowFlags;
 
 	rendererFlags = SDL_RENDERER_ACCELERATED;
@@ -70,12 +70,17 @@ void init_SDL(void)
 
 	app->score = init_text(DISPLAY_SCORE_WIGTH, DISPLAY_SCORE_HEIGTH, DISPLAY_SCORE_X, DISPLAY_SCORE_Y);
 
-	game = init_game(); 
+	game = init_game();
+	quit = false;
+}
+
+bool is_quit() {
+	return quit;
 }
 
 void cleanup() {
 	if (app->score) {
-		clean_text(app->score);
+		free(app->score);
 	}
 	if (app->renderer) {
 		SDL_DestroyRenderer(app->renderer);
@@ -87,11 +92,12 @@ void cleanup() {
 	clean_game(game);
 	TTF_Quit();
 	SDL_Quit();
+	quit = true;
 }
 
 void handle_input(SDL_Keycode code) {
 	if (code == SDLK_ESCAPE || code == SDLK_q) {
-		exit(0);
+		cleanup();
 	}
 	else if (code == SDLK_LEFT) {
 		move_left(game);
@@ -115,7 +121,7 @@ void do_input(void)
 		switch (event.type)
 		{
 			case SDL_QUIT:
-				exit(0);
+				cleanup();
 				break;
 			case SDL_KEYDOWN:
 				handle_input(event.key.keysym.sym);

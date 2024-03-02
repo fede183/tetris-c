@@ -14,7 +14,6 @@ void _clean_text_sdl(TextBox* text_box) {
 
 void clean_text(TextBox* text_box) {
 	_clean_text_sdl(text_box);
-	free(text_box->font);
 	free(text_box);
 }
 
