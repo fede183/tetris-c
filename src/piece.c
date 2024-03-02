@@ -8,9 +8,9 @@
 #include "color.c"
 #include "random_number_generator.c"
 
-Piece* createPiece() {
+Piece* create_piece() {
 
-    Piece* newPiece = (Piece*) malloc(sizeof(Piece));
+    Piece* new_piece = (Piece*) malloc(sizeof(Piece));
 
     unsigned int piece = random_number_generator(0, 7);
     unsigned int colorInt = random_number_generator(0, 7);
@@ -29,21 +29,21 @@ Piece* createPiece() {
     for (unsigned int i = 0; i < 4; i++)
     {
         unsigned int figure_position = figures[piece][i]; 
-        newPiece->positions[i].x = figure_position % 2;
-        newPiece->positions[i].y = figure_position / 2;
-        newPiece->positions[i].point_color = theColor;
+        new_piece->positions[i].x = figure_position % 2;
+        new_piece->positions[i].y = figure_position / 2;
+        new_piece->positions[i].point_color = theColor;
     }
 
-    return newPiece;
+    return new_piece;
 }
 
-Piece* createPoint(PointOnBoard positions[4]) {
-    Piece* newPiece = (Piece*) malloc(sizeof(Piece));
+Piece* create_point(PointOnBoard positions[4]) {
+    Piece* new_piece = (Piece*) malloc(sizeof(Piece));
     for (unsigned int i = 0; i < 4; i++)
     {
-        newPiece->positions[i] = positions[i];
+        new_piece->positions[i] = positions[i];
     }
-    return newPiece;
+    return new_piece;
 }
 
 void copy(Piece* from, Piece* to) {

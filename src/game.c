@@ -4,22 +4,23 @@
 #include "board.c"
 
 Game* init_game() {
-    Game* newGame = (Game*) malloc(sizeof(Game));
+    Game* new_game = (Game*) malloc(sizeof(Game));
     // Declare Game
-    newGame->board = create_board(VISIBLE_VERTICAL_BOARD + INVISIBLE_BOARD, HORIZONTAL_BOARD);
-    newGame->piece = createPiece();
-    newGame->next_piece = createPiece();
+    new_game->board = create_board(VISIBLE_VERTICAL_BOARD + INVISIBLE_BOARD, HORIZONTAL_BOARD);
+    new_game->piece = create_piece();
+    new_game->next_piece = create_piece();
 
-    newGame->score = 0;
-    newGame->level = 0;
-    newGame->complete_lines = 0;
+    new_game->score = 0;
+    new_game->level = 0;
+    new_game->complete_lines = 0;
 
-    return newGame;
+    return new_game;
 }
 
 void clean_game(Game* game) {
     	clean_board(game->board);
     	free(game->piece);
+    	free(game->next_piece);
     	free(game);
 }
 
@@ -42,7 +43,7 @@ void check_state(Game* game) {
 
         // Get next piece
         copy(game->next_piece, game->piece);
-        game->next_piece = createPiece();
+        game->next_piece = create_piece();
     }
 }
 
