@@ -43,6 +43,7 @@ void check_state(Game* game) {
 
         // Get next piece
         copy(game->next_piece, game->piece);
+	free(game->next_piece);
         game->next_piece = create_piece();
     }
 }
@@ -152,8 +153,5 @@ PointOnBoard* get_next_piece_points(Game* game) {
 }
 
 PointOnBoard* get_all_points(Game* game) {
-
-    PointOnBoard* points = game->board->occupied_board_points;
-
-    return points;
+    return game->board->occupied_board_points;
 }

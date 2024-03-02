@@ -11,13 +11,13 @@ bool equal(const PointOnBoard* point1, const PointOnBoard* point2)
 }
 
 Board* create_board(const unsigned int board_row_size, const unsigned int board_column_size) {
-	Board* newBoard = (Board*) malloc(sizeof(Board));
-	newBoard->occupied_board_points = (PointOnBoard*) malloc(sizeof(PointOnBoard));
-	newBoard->occupied_board_points_size = 0;
-	newBoard->board_row_size = board_row_size;
-	newBoard->board_column_size = board_column_size;
+	Board* new_board = (Board*) malloc(sizeof(Board));
+	new_board->occupied_board_points = (PointOnBoard*) malloc(sizeof(PointOnBoard));
+	new_board->occupied_board_points_size = 0;
+	new_board->board_row_size = board_row_size;
+	new_board->board_column_size = board_column_size;
 
-	return newBoard;
+	return new_board;
 }
 
 void clean_board(Board* board) {
