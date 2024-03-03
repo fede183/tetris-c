@@ -37,15 +37,6 @@ Piece* create_piece() {
     return new_piece;
 }
 
-Piece* create_point(PointOnBoard positions[4]) {
-    Piece* new_piece = (Piece*) malloc(sizeof(Piece));
-    for (unsigned int i = 0; i < 4; i++)
-    {
-        new_piece->positions[i] = positions[i];
-    }
-    return new_piece;
-}
-
 void copy(Piece* from, Piece* to) {
     for (unsigned int i = 0; i < 4; i++)
     {
@@ -55,14 +46,4 @@ void copy(Piece* from, Piece* to) {
 
 PointOnBoard get_center_point(Piece* piece) {
     return piece->positions[1];
-}
-
-bool has_colitions_top(Piece* piece) {
-    bool has_colitions_top = false;
-    for (unsigned int i = 0; i < 4; i++)
-    {
-        has_colitions_top = has_colitions_top || 
-        !(0 <= piece->positions[i].y);
-    }
-    return has_colitions_top;
 }

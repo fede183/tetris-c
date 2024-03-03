@@ -90,26 +90,37 @@ void descend(Game* game) {
 }
 
 void rotate(Game* game) {
-    PointOnBoard center_point = game->piece->positions[1];
-    for (int i = 0; i < 4; i++) {
-        unsigned int rotate_x = game->piece->positions[i].y - center_point.y;
-        unsigned int rotate_y = game->piece->positions[i].x - center_point.x;         
-        game->piece->positions[i].x = center_point.x - rotate_x;
-        game->piece->positions[i].y =  center_point.y + rotate_y;
-    }
+	Piece* piece = game->piece;
+	Piece* old_piece = (Piece*) malloc(sizeof(Piece));
+	copy(piece, old_piece);
 
-    while (has_colitions_border_left(game->board, game->piece)) {
-	_move_right_no_colitions(game);
-    }
+	PointOnBoard center_point = get_center_point(piece);
+	
+	for (int i = 0; i < 4; i++) {
+		unsigned int rotate_x = piece->positions[i].y - center_point.y;
+		unsigned int rotate_y = piece->positions[i].x - center_point.x;         
+		piece->positions[i].x = center_point.x - rotate_x;
+		piece->positions[i].y =  center_point.y + rotate_y;
+	}
 
-    while (has_colitions_border_right(game->board, game->piece)) {
-	_move_left_no_colitions(game);
-    }
+	while (has_colitions_border_left(game->board, piece)) {
+		_move_right_no_colitions(game);
+	}
 
-    while (has_colitions_top(game->piece)) {
-        descend(game);
-    }
+	while (has_colitions_border_right(game->board, piece)) {
+		_move_left_no_colitions(game);
+	}
 
+	while (has_colitions_top(piece)) {
+		descend(game);
+	}
+
+	if (has_colitions_remains(game->board, piece)) {
+		free(piece);
+		game->piece = old_piece;
+	} else {
+		free(old_piece);
+	}
 }
 
 bool is_game_over(Game* game) {

@@ -63,67 +63,77 @@ void add_piece(Board* board, Piece* piece) {
     }
 }
 
-bool has_colitions_bottom_or_remains(Board* board, Piece* piece) {
-    bool has_colitions_top = false;
-    int board_row_size = board->board_row_size;
+bool has_colitions_top(Piece* piece) {
     for (unsigned int i = 0; i < 4; i++)
     {
         PointOnBoard point = piece->positions[i];
-        has_colitions_top = has_colitions_top || 
-        !(point.y < board_row_size) || has_point(board, point);
+        if (!(0 <= point.y)) {
+		return true;
+	}
     }
 
-    return has_colitions_top;
+    return false;
 }
 
-bool has_colitions_bottom_and_top(Board* board, Piece* piece) {
-    bool has_colitions_top = false;
+bool has_colitions_bottom_or_remains(Board* board, Piece* piece) {
     int board_row_size = board->board_row_size;
     for (unsigned int i = 0; i < 4; i++)
     {
         PointOnBoard point = piece->positions[i];
-        has_colitions_top = has_colitions_top || 
-        (board_row_size <= point.y || has_point(board, point));
+        if (!(point.y < board_row_size) || has_point(board, point)) {
+		return true;
+	}
     }
 
-    return has_colitions_top;
+    return false;
+}
+
+bool has_colitions_remains(Board* board, Piece* piece) {
+    for (unsigned int i = 0; i < 4; i++)
+    {
+        PointOnBoard point = piece->positions[i];
+        if (has_point(board, point)) {
+		return true;
+	}
+    }
+
+    return false;
 }
 
 bool has_colitions_border_or_remains(Board* board, Piece* piece) {
-    bool has_colitions_border_or_remains = false;
     for (unsigned int i = 0; i < 4; i++)
     {
         PointOnBoard point = piece->positions[i];
-        has_colitions_border_or_remains = has_colitions_border_or_remains || 
-        !(0 <= point.x && point.x < board->board_column_size) 
-        || has_point(board, point);
+        if (!(0 <= point.x && point.x < board->board_column_size) || has_point(board, point)) {
+		return true;
+	}
     }
 
-    return has_colitions_border_or_remains;
+    return false;
 }
 
 bool has_colitions_border_left(Board* board, Piece* piece) {
-    bool has_colitions_border_left = false;
     for (unsigned int i = 0; i < 4; i++)
     {
         PointOnBoard point = piece->positions[i];
-        has_colitions_border_left = has_colitions_border_left || 
-        !(0 <= point.x);
+        if (has_colitions_border_left || !(0 <= point.x)) {
+		return true;
+	}
     }
 
-    return has_colitions_border_left;
+    return false;
 }
 
 bool has_colitions_border_right(Board* board, Piece* piece) {
-    bool has_colitions_border_right = false;
     for (unsigned int i = 0; i < 4; i++)
     {
         PointOnBoard point = piece->positions[i];
-        has_colitions_border_right = has_colitions_border_right || 
-        !(point.x < board->board_column_size);
+        if (!(point.x < board->board_column_size)) {
+		return true;
+	}
     }
 
-    return has_colitions_border_right;
+    return false;
 }
 
 bool delete_line_if_complete(Board* board, unsigned int row) {
