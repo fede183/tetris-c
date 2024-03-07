@@ -140,7 +140,10 @@ void prepare_scene(void)
 
 void present_scene(void)
 {
-	show_text(app->score, app->renderer, "Score");
+	char score_text[10];
+	sprintf(score_text, "Score: %d", game->score);
+	show_text(app->score, app->renderer, score_text);
+
 	init_rectagle(app->renderer, DISPLAY_BOARD_WIDTH, DISPLAY_BOARD_HEIGTH, DISPLAY_BOARD_X, DISPLAY_BOARD_Y, (SDL_Color) BLACK_COLOR);
 	init_rectagle(app->renderer, DISPLAY_NEXT_PIECE_BLOCK_WIDTH, DISPLAY_NEXT_PIECE_BLOCK_HEIGTH, DISPLAY_NEXT_PIECE_BLOCK_POSITION_X, DISPLAY_NEXT_PIECE_BLOCK_POSITION_Y, (SDL_Color) BLACK_COLOR);
 

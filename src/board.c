@@ -116,7 +116,7 @@ bool has_colitions_border_left(Board* board, Piece* piece) {
     for (unsigned int i = 0; i < 4; i++)
     {
         PointOnBoard point = piece->positions[i];
-        if (has_colitions_border_left || !(0 <= point.x)) {
+        if (!(0 <= point.x)) {
 		return true;
 	}
     }
