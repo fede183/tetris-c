@@ -17,6 +17,8 @@ App* app;
 Game* game;
 bool quit;
 
+SDL_Color SDLColors[8] = {BLUE_COLOR, VIOLET_COLOR, RED_COLOR, GREEN_COLOR, YELLOW_COLOR, LIGHT_BLUE_COLOR, ORANGE_COLOR, MEDIUM_BLUE_COLOR};
+
 void cleanup();
 void init_SDL();
 void handle_input(SDL_Keycode);
@@ -195,5 +197,5 @@ void draw_point(PointOnBoard point) {
 		return;
 	}
 
-	init_rectagle(app->renderer, SQUARE_SIZE, SQUARE_SIZE, display_x, display_y, (SDL_Color) RED_COLOR);
+	init_rectagle(app->renderer, SQUARE_SIZE, SQUARE_SIZE, display_x, display_y, SDLColors[point.point_color]);
 }

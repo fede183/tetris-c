@@ -46,4 +46,11 @@
 // Colors
 #define BLACK_COLOR { .r = 0, .g = 0, .b = 0, .a = 255 }
 #define WHITE_COLOR { .r = 255, .g = 255, .b = 255, .a = 255 }
+#define BLUE_COLOR { .r = 0, .g = 0, .b = 255, .a = 255 }
+#define VIOLET_COLOR { .r = 127, .g = 0, .b = 255, .a = 255 }
 #define RED_COLOR { .r = 255, .g = 0, .b = 0, .a = 255 }
+#define GREEN_COLOR { .r = 102, .g = 204, .b = 0, .a = 255 }
+#define YELLOW_COLOR { .r = 255, .g = 255, .b = 0, .a = 255 }
+#define LIGHT_BLUE_COLOR { .r = 0, .g = 204, .b = 204, .a = 255 }
+#define ORANGE_COLOR { .r = 255, .g = 128, .b = 0, .a = 255 }
+#define MEDIUM_BLUE_COLOR { .r = 255, .g = 0, .b = 255, .a = 255 }
