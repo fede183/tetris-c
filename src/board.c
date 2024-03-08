@@ -148,13 +148,15 @@ bool delete_line_if_complete(Board* board, unsigned int row) {
 	}
 	unsigned int new_size = board->occupied_board_points_size - board->board_column_size;
 	PointOnBoard* new_points = (PointOnBoard*) malloc(sizeof(PointOnBoard) * new_size);
+	unsigned int current_new_point_index = 0;
 	
 	for (int index = 0; index < board->occupied_board_points_size; index++) {
 		if (board->occupied_board_points[index].y != row) {
-			new_points[index] = board->occupied_board_points[index];
-		}
-		if (board->occupied_board_points[index].y < row) {
-			new_points[index].y += 1;
+			new_points[current_new_point_index] = board->occupied_board_points[index];
+			if (board->occupied_board_points[index].y < row) {
+				new_points[current_new_point_index].y += 1;
+			}
+			current_new_point_index++;
 		}
 	}
 
