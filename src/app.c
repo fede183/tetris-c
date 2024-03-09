@@ -18,6 +18,8 @@ Game* game;
 bool quit;
 
 SDL_Color SDLColors[8] = {BLUE_COLOR, VIOLET_COLOR, RED_COLOR, GREEN_COLOR, YELLOW_COLOR, LIGHT_BLUE_COLOR, ORANGE_COLOR, MEDIUM_BLUE_COLOR};
+int rendererFlags = SDL_RENDERER_ACCELERATED;
+int windowFlags = 0;
 
 void cleanup();
 void init_SDL();
@@ -32,12 +34,6 @@ void draw_point();
 
 void init_SDL(void)
 {
-	int rendererFlags, windowFlags;
-
-	rendererFlags = SDL_RENDERER_ACCELERATED;
-
-	windowFlags = 0;
-
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		printf("Couldn't initialize SDL: %s\n", SDL_GetError());
@@ -90,6 +86,15 @@ void cleanup() {
 	if (app->window) {
 		SDL_DestroyWindow(app->window);
 	}
+	if (app->game_over_message) {
+		free(app->game_over_message);
+	}
+	if (app->game_over_renderer) {
+		SDL_DestroyRenderer(app->game_over_renderer);
+	}
+	if (app->game_over_window) {
+		SDL_DestroyWindow(app->game_over_window);
+	}
 	free(app);
 	clean_game(game);
 	TTF_Quit();
@@ -97,46 +102,10 @@ void cleanup() {
 	quit = true;
 }
 
-void handle_input(SDL_Keycode code) {
-	if (code == SDLK_ESCAPE || code == SDLK_q) {
-		cleanup();
-	}
-	else if (code == SDLK_LEFT) {
-		move_left(game);
-	}
-	else if (code == SDLK_RIGHT) {
-		move_right(game);
-	}
-	else if (code == SDLK_DOWN) {
-		descend(game);
-	}
-	else if (code == SDLK_SPACE) {
-		rotate(game);
-	}}
-
-void do_input(void)
-{
-	SDL_Event event;
-
-	while (SDL_PollEvent(&event))
-	{
-		switch (event.type)
-		{
-			case SDL_QUIT:
-				cleanup();
-				break;
-			case SDL_KEYDOWN:
-				handle_input(event.key.keysym.sym);
-				break;
-			default:
-				break;
-		}
-	}
-}
-
 void prepare_scene(void)
 {
-	SDL_SetRenderDrawColor(app->renderer, 128, 128, 128, 10);
+	SDL_Color background_color = GREY_COLOR;
+	SDL_SetRenderDrawColor(app->renderer, background_color.r, background_color.g, background_color.b, background_color.a);
 	SDL_RenderClear(app->renderer);
 }
 
@@ -198,4 +167,111 @@ void draw_point(PointOnBoard point) {
 	}
 
 	init_rectagle(app->renderer, SQUARE_SIZE, SQUARE_SIZE, display_x, display_y, SDLColors[point.point_color]);
+}
+
+void handle_input(SDL_Keycode code) {
+	if (code == SDLK_ESCAPE || code == SDLK_q) {
+		cleanup();
+	}
+	else if (code == SDLK_LEFT) {
+		move_left(game);
+	}
+	else if (code == SDLK_RIGHT) {
+		move_right(game);
+	}
+	else if (code == SDLK_DOWN) {
+		descend(game);
+	}
+	else if (code == SDLK_SPACE) {
+		rotate(game);
+	}
+}
+
+void do_input(void)
+{
+	SDL_Event event;
+
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+			case SDL_QUIT:
+				cleanup();
+				break;
+			case SDL_KEYDOWN:
+				handle_input(event.key.keysym.sym);
+				break;
+			default:
+				break;
+		}
+	}
+}
+
+// Game Over Window
+bool check_game_over() {
+	return is_game_over(game);
+}
+
+void init_game_over() {
+	app->game_over_window = SDL_CreateWindow("Game Over", 
+                                       0,
+                                       0,
+                                       GAME_OVER_DISPLAY_WIDTH, GAME_OVER_DISPLAY_HEIGTH, windowFlags);
+
+	if (!app->game_over_window)
+	{
+		printf("Failed to open %d x %d window: %s\n", GAME_OVER_DISPLAY_WIDTH, GAME_OVER_DISPLAY_HEIGTH, SDL_GetError());
+		exit(1);
+	}
+
+	app->game_over_renderer = SDL_CreateRenderer(app->game_over_window, -1, rendererFlags);
+
+	if (!app->game_over_renderer)
+	{
+		printf("Failed to create renderer: %s\n", SDL_GetError());
+		exit(1);
+	}
+
+	app->game_over_message = init_text(DISPLAY_GAME_OVER_MESSAGE_WIGTH, DISPLAY_GAME_OVER_MESSAGE_HEIGTH, DISPLAY_GAME_OVER_MESSAGE_X, DISPLAY_GAME_OVER_MESSAGE_Y);
+}
+
+void prepare_game_over_scene(void)
+{
+	SDL_Color background_color = RED_COLOR;
+	SDL_SetRenderDrawColor(app->game_over_renderer, background_color.r, background_color.g, background_color.b, background_color.a);
+	SDL_RenderClear(app->game_over_renderer);
+}
+
+void present_game_over_scene(void)
+{
+	char* game_over_text = "Game Over! Press q or Esc to quit";
+	show_text(app->game_over_message, app->game_over_renderer, game_over_text);
+
+	SDL_RenderPresent(app->game_over_renderer);
+}
+
+void handle_input_game_over(SDL_Keycode code) {
+	if (code == SDLK_ESCAPE || code == SDLK_q) {
+		cleanup();
+	}
+}
+
+void do_input_game_over(void)
+{
+	SDL_Event event;
+
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+			case SDL_QUIT:
+				cleanup();
+				break;
+			case SDL_KEYDOWN:
+				handle_input_game_over(event.key.keysym.sym);
+				break;
+			default:
+				break;
+		}
+	}
 }

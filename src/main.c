@@ -9,10 +9,9 @@ int main(int argc, char *argv[])
 
 	init_SDL();
 
-	while (!is_quit())
+	while (!is_quit() && !check_game_over())
 	{
 		prepare_scene();
-
 		present_scene();
 
 		do_input();
@@ -20,6 +19,19 @@ int main(int argc, char *argv[])
 		SDL_Delay(16);
 	}
 
+	if (check_game_over()) {
+		init_game_over();
+	}
+
+	while(!is_quit()) {
+		prepare_scene();
+		present_scene();
+
+		prepare_game_over_scene();
+		present_game_over_scene();
+		
+		do_input_game_over();
+	}
 
 	return 0;
 }

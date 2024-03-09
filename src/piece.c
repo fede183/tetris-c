@@ -13,8 +13,8 @@ Piece* create_piece() {
     Piece* new_piece = (Piece*) malloc(sizeof(Piece));
 
     unsigned int piece = random_number_generator(0, 7);
-    unsigned int colorInt = random_number_generator(0, 7);
-    enum point_color theColor = intToEnum(colorInt);
+    unsigned int color_int = random_number_generator(0, 7);
+    enum point_color the_color = intToEnum(color_int);
 
     const unsigned int figures[7][4] = {
         0, 2, 4, 6, //I
@@ -31,7 +31,7 @@ Piece* create_piece() {
         unsigned int figure_position = figures[piece][i]; 
         new_piece->positions[i].x = figure_position % 2;
         new_piece->positions[i].y = figure_position / 2;
-        new_piece->positions[i].point_color = theColor;
+        new_piece->positions[i].point_color = the_color;
     }
 
     return new_piece;

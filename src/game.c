@@ -17,6 +17,10 @@ Game* init_game() {
     return new_game;
 }
 
+bool is_game_over(Game* game) {
+    return has_colitions_top_and_remains(game->board, game->piece);
+}
+
 void clean_game(Game* game) {
     	clean_board(game->board);
     	free(game->piece);
@@ -121,10 +125,6 @@ void rotate(Game* game) {
 	} else {
 		free(old_piece);
 	}
-}
-
-bool is_game_over(Game* game) {
-    return get_row_quantity(game->board) > VERTICAL_SIZE;
 }
 
 void clean_for_cycle(Game* game) {

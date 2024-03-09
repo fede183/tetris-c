@@ -31,12 +31,13 @@ static bool compare_points(PointOnBoard elem1, PointOnBoard elem2) {
 
 bool has_point(Board* board, PointOnBoard point) {
 	PointOnBoard* points = board->occupied_board_points;
-	bool it_exists = false;
 	for (int index = 0; index < board->occupied_board_points_size; index++) {
 		PointOnBoard index_point = points[index];
-		it_exists = it_exists || compare_points(index_point, point);
+		if (compare_points(index_point, point)) {
+			return true;
+		}
 	}
-	return it_exists;
+	return false;
 }
 
 void add_point(Board* board, PointOnBoard new_point) {
@@ -67,20 +68,7 @@ bool has_colitions_top(Piece* piece) {
     for (unsigned int i = 0; i < 4; i++)
     {
         PointOnBoard point = piece->positions[i];
-        if (!(0 <= point.y)) {
-		return true;
-	}
-    }
-
-    return false;
-}
-
-bool has_colitions_bottom_or_remains(Board* board, Piece* piece) {
-    int board_row_size = board->board_row_size;
-    for (unsigned int i = 0; i < 4; i++)
-    {
-        PointOnBoard point = piece->positions[i];
-        if (!(point.y < board_row_size) || has_point(board, point)) {
+        if (INVISIBLE_BOARD > point.y) {
 		return true;
 	}
     }
@@ -93,6 +81,23 @@ bool has_colitions_remains(Board* board, Piece* piece) {
     {
         PointOnBoard point = piece->positions[i];
         if (has_point(board, point)) {
+		return true;
+	}
+    }
+
+    return false;
+}
+
+bool has_colitions_top_and_remains(Board* board, Piece* piece) {
+	return has_colitions_top(piece) && has_colitions_remains(board, piece);
+}
+
+bool has_colitions_bottom_or_remains(Board* board, Piece* piece) {
+    int board_row_size = board->board_row_size;
+    for (unsigned int i = 0; i < 4; i++)
+    {
+        PointOnBoard point = piece->positions[i];
+        if (!(point.y < board_row_size) || has_point(board, point)) {
 		return true;
 	}
     }
