@@ -1,5 +1,5 @@
 #!/bin/sh
 
-yay conan
+yay vcpkg
 
 conan profile detect --force
