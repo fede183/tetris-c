@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
 		do_input();
 
-		SDL_Delay(16);
+		cycle();
 	}
 
 	if (check_game_over()) {

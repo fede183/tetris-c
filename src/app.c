@@ -207,6 +207,11 @@ void do_input(void)
 	}
 }
 
+void cycle() {
+	descend(game);
+	SDL_Delay(100);
+}
+
 // Game Over Window
 bool check_game_over() {
 	return is_game_over(game);
