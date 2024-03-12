@@ -14,12 +14,12 @@ int main(int argc, char *argv[])
 		prepare_scene();
 		present_scene();
 
-		do_input();
-
 		cycle();
+
+		do_input();
 	}
 
-	if (check_game_over()) {
+	if (!is_quit() && check_game_over()) {
 		init_game_over();
 	}
 
