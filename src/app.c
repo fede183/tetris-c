@@ -6,7 +6,6 @@
 #include <stdbool.h>
 #include <callback.h>
 
-#include "button.c"
 #include "text_box.c"
 #include "rectagle.c"
 #include "game.c"
