@@ -73,3 +73,6 @@
 #define LIGHT_BLUE_COLOR { .r = 0, .g = 204, .b = 204, .a = 255 }
 #define ORANGE_COLOR { .r = 255, .g = 128, .b = 0, .a = 255 }
 #define MEDIUM_BLUE_COLOR { .r = 255, .g = 0, .b = 255, .a = 255 }
+
+// Audio
+#define MUSIC_FILE "../sounds/theme.wav"

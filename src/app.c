@@ -66,6 +66,24 @@ void init_SDL(void)
 		exit(1);
 	}
 
+	if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 512) == -1) {
+		printf("Failed to create audio: %s\n", SDL_GetError());
+		exit(1);
+	}
+
+	app->music = Mix_LoadMUS(MUSIC_FILE);
+
+	if (!app->music)
+	{
+		printf("Failed to create renderer: %s\n", SDL_GetError());
+		exit(1);
+	}
+
+	if (Mix_PlayMusic(app->music, -1) == -1) {
+		printf("Failed to play music: %s\n", SDL_GetError());
+		exit(1);
+        }
+
 	app->score = init_text(DISPLAY_SCORE_WIGTH, DISPLAY_SCORE_HEIGTH, DISPLAY_SCORE_X, DISPLAY_SCORE_Y);
 
 	game = init_game();
@@ -95,6 +113,11 @@ void cleanup() {
 	if (app->game_over_window) {
 		SDL_DestroyWindow(app->game_over_window);
 	}
+	if (app->music) {
+		Mix_FreeMusic(app->music);
+    		Mix_CloseAudio();
+	}
+
 	free(app);
 	clean_game(game);
 	TTF_Quit();
