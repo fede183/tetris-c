@@ -4,7 +4,7 @@ project(tetris-c)
 find_package(SDL2 REQUIRED CONFIG)
 find_package(SDL2_image REQUIRED CONFIG)
 find_package(SDL2_ttf REQUIRED CONFIG)
-# find_package(SDL2_mixer REQUIRED CONFIG)
+find_package(SDL2_mixer REQUIRED CONFIG)
 
 add_executable(tetris-c src/main.c)
 
@@ -18,4 +18,4 @@ target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_image::SDL2_image-static)
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_ttf)
 
 # SDL mixer for music
-# target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_mixer::SDL2_mixer-static)
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_mixer::SDL2_mixer-static)
