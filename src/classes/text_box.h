@@ -5,7 +5,6 @@
 #define TEXT_BOX_H
 
 typedef struct {
-	SDL_Surface* surface;
 	SDL_Texture* message;
 	TTF_Font* font;
 	SDL_Rect rect;
