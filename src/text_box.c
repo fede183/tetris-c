@@ -4,6 +4,9 @@ void _clean_text_sdl(TextBox* text_box) {
 	if (text_box->font) {
 		TTF_CloseFont(text_box->font);
 	}
+	if (text_box->surface) {
+		SDL_FreeSurface(text_box->surface);
+	}
 	if (text_box->message) {
 		SDL_DestroyTexture(text_box->message);
 	}
@@ -37,16 +40,14 @@ void show_text(TextBox* text_box, SDL_Renderer* renderer, char* text) {
 
 	SDL_Color Black = {0, 0, 0};
 
-	SDL_Surface* surface = TTF_RenderText_Solid(text_box->font, text, Black);
+	text_box->surface = TTF_RenderText_Solid(text_box->font, text, Black);
 
-	if (surface == NULL) {
+	if (text_box->surface == NULL) {
 		printf("Surface load error: %s\n", SDL_GetError());
 		exit(0);
 	}
 
-	text_box->message = SDL_CreateTextureFromSurface(renderer, surface);
-
-	SDL_FreeSurface(surface);
+	text_box->message = SDL_CreateTextureFromSurface(renderer, text_box->surface);
 
 	if (text_box->message == NULL) {
 		printf("Texture load error: %s\n", SDL_GetError());
