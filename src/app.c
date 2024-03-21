@@ -30,6 +30,7 @@ void draw_game_state();
 void draw_piece();
 void draw_occupied_points();
 void draw_point();
+bool check_game_over();
 
 void init_SDL(void)
 {
@@ -103,18 +104,15 @@ void cleanup() {
 	if (app->window) {
 		SDL_DestroyWindow(app->window);
 	}
-	if (app->game_over_message) {
-		free(app->game_over_message);
-	}
-	if (app->game_over_renderer) {
-		SDL_DestroyRenderer(app->game_over_renderer);
-	}
-	if (app->game_over_window) {
-		SDL_DestroyWindow(app->game_over_window);
-	}
 	if (app->music) {
 		Mix_FreeMusic(app->music);
     		Mix_CloseAudio();
+	}
+
+	if (check_game_over()) {
+		free(app->game_over_message);
+		SDL_DestroyRenderer(app->game_over_renderer);
+		SDL_DestroyWindow(app->game_over_window);
 	}
 
 	free(app);
