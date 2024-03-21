@@ -12,28 +12,26 @@
 #include "classes/app.h"
 #include "classes/config.h"
 
-App* app;
-Game* game;
-bool quit;
-
 SDL_Color SDLColors[8] = {BLUE_COLOR, VIOLET_COLOR, RED_COLOR, GREEN_COLOR, YELLOW_COLOR, LIGHT_BLUE_COLOR, ORANGE_COLOR, MEDIUM_BLUE_COLOR};
 int rendererFlags = SDL_RENDERER_ACCELERATED;
 int windowFlags = 0;
 
-void cleanup();
-void init_SDL();
-void handle_input(SDL_Keycode);
-void do_input();
-void prepare_scene();
-void present_scene();
-void draw_game_state();
-void draw_piece();
-void draw_occupied_points();
-void draw_point();
-bool check_game_over();
+void cleanup(App*);
+App* init_SDL();
+void handle_input(App*, SDL_Keycode);
+void do_input(App*);
+void prepare_scene(App*);
+void present_scene(App*);
+void draw_game_state(App*);
+void draw_piece(App*, Piece*);
+void draw_occupied_points(App*);
+void draw_point(App*, PointOnBoard);
+bool check_game_over(App*);
 
-void init_SDL(void)
+App* init_SDL()
 {
+	App* app = (App*) malloc(sizeof(App));
+
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		printf("Couldn't initialize SDL: %s\n", SDL_GetError());
@@ -86,15 +84,17 @@ void init_SDL(void)
 
 	app->score = init_text(DISPLAY_SCORE_WIGTH, DISPLAY_SCORE_HEIGTH, DISPLAY_SCORE_X, DISPLAY_SCORE_Y);
 
-	game = init_game();
-	quit = false;
+	app->game = init_game();
+	app->quit = false;
+
+	return app;
 }
 
-bool is_quit() {
-	return quit;
+bool is_quit(App* app) {
+	return app->quit;
 }
 
-void cleanup() {
+void cleanup(App* app) {
 	if (app->score) {
 		free(app->score);
 	}
@@ -109,42 +109,41 @@ void cleanup() {
     		Mix_CloseAudio();
 	}
 
-	if (check_game_over()) {
+	if (check_game_over(app)) {
 		free(app->game_over_message);
 		SDL_DestroyRenderer(app->game_over_renderer);
 		SDL_DestroyWindow(app->game_over_window);
 	}
 
+	clean_game(app->game);
 	free(app);
-	clean_game(game);
 	TTF_Quit();
 	SDL_Quit();
-	quit = true;
 }
 
-void prepare_scene(void)
+void prepare_scene(App* app)
 {
 	SDL_Color background_color = GREY_COLOR;
 	SDL_SetRenderDrawColor(app->renderer, background_color.r, background_color.g, background_color.b, background_color.a);
 	SDL_RenderClear(app->renderer);
 }
 
-void present_scene(void)
+void present_scene(App* app)
 {
 	char score_text[10];
-	sprintf(score_text, "Score: %d", game->score);
+	sprintf(score_text, "Score: %d", app->game->score);
 	show_text(app->score, app->renderer, score_text);
 
 	init_rectagle(app->renderer, DISPLAY_BOARD_WIDTH, DISPLAY_BOARD_HEIGTH, DISPLAY_BOARD_X, DISPLAY_BOARD_Y, (SDL_Color) BLACK_COLOR);
 	init_rectagle(app->renderer, DISPLAY_NEXT_PIECE_BLOCK_WIDTH, DISPLAY_NEXT_PIECE_BLOCK_HEIGTH, DISPLAY_NEXT_PIECE_BLOCK_POSITION_X, DISPLAY_NEXT_PIECE_BLOCK_POSITION_Y, (SDL_Color) BLACK_COLOR);
 
-	draw_game_state(game->piece);
+	draw_game_state(app);
 	SDL_RenderPresent(app->renderer);
 }
 
-void draw_game_state() {
-	Piece* piece = game->piece;
-	Piece* next_piece = game->next_piece;
+void draw_game_state(App* app) {
+	Piece* piece = app->game->piece;
+	Piece* next_piece = app->game->next_piece;
 	Piece* next_piece_copy = (Piece*) malloc(sizeof(Piece));
 	copy(next_piece, next_piece_copy);
 	
@@ -152,33 +151,33 @@ void draw_game_state() {
 		PointOnBoard point = next_piece_copy->positions[i];
 		point.y = point.y + NEXT_PIECE_BLOCK_Y + 1;
 		point.x = point.x + NEXT_PIECE_BLOCK_X + 1;
-		draw_point(point);
+		draw_point(app, point);
 	}
 	
-	draw_piece(piece);
-	draw_piece(next_piece_copy);
-	draw_occupied_points();
+	draw_piece(app, piece);
+	draw_piece(app, next_piece_copy);
+	draw_occupied_points(app);
 	free(next_piece_copy);
 }
 
-void draw_piece(Piece* piece) {
+void draw_piece(App* app, Piece* piece) {
 	for (unsigned int i = 0; i<4; i++) {
 		PointOnBoard point = piece->positions[i];
-		draw_point(point);
+		draw_point(app, point);
 	}
 }
 
-void draw_occupied_points() {
-	PointOnBoard* points = game->board->occupied_board_points;
-	unsigned int points_size = game->board->occupied_board_points_size;
+void draw_occupied_points(App* app) {
+	PointOnBoard* points = app->game->board->occupied_board_points;
+	unsigned int points_size = app->game->board->occupied_board_points_size;
 
 	for (unsigned int i = 0; i<points_size; i++) {
 		PointOnBoard point = points[i];
-		draw_point(point);
+		draw_point(app, point);
 	}
 }
 
-void draw_point(PointOnBoard point) {
+void draw_point(App* app, PointOnBoard point) {
 	unsigned int display_x = SQUARE_SIZE*(point.x + 1);
 	unsigned int display_y = SQUARE_SIZE*(point.y+HEADER);
 
@@ -189,25 +188,25 @@ void draw_point(PointOnBoard point) {
 	init_rectagle(app->renderer, SQUARE_SIZE, SQUARE_SIZE, display_x, display_y, SDLColors[point.point_color]);
 }
 
-void handle_input(SDL_Keycode code) {
+void handle_input(App* app, SDL_Keycode code) {
 	if (code == SDLK_ESCAPE || code == SDLK_q) {
-		cleanup();
+		app->quit = true;
 	}
 	else if (code == SDLK_LEFT) {
-		move_left(game);
+		move_left(app->game);
 	}
 	else if (code == SDLK_RIGHT) {
-		move_right(game);
+		move_right(app->game);
 	}
 	else if (code == SDLK_DOWN) {
-		descend(game);
+		descend(app->game);
 	}
 	else if (code == SDLK_SPACE) {
-		rotate(game);
+		rotate(app->game);
 	}
 }
 
-void do_input(void)
+void do_input(App* app)
 {
 	SDL_Event event;
 
@@ -216,10 +215,10 @@ void do_input(void)
 		switch (event.type)
 		{
 			case SDL_QUIT:
-				cleanup();
+				app->quit = true;
 				break;
 			case SDL_KEYDOWN:
-				handle_input(event.key.keysym.sym);
+				handle_input(app, event.key.keysym.sym);
 				break;
 			default:
 				break;
@@ -227,17 +226,17 @@ void do_input(void)
 	}
 }
 
-void cycle() {
-	descend(game);
+void cycle(App* app) {
+	descend(app->game);
 	SDL_Delay(100);
 }
 
 // Game Over Window
-bool check_game_over() {
-	return is_game_over(game);
+bool check_game_over(App* app) {
+	return is_game_over(app->game);
 }
 
-void init_game_over() {
+void init_game_over(App* app) {
 	app->game_over_window = SDL_CreateWindow("Game Over", 
                                        0,
                                        0,
@@ -260,14 +259,14 @@ void init_game_over() {
 	app->game_over_message = init_text(DISPLAY_GAME_OVER_MESSAGE_WIGTH, DISPLAY_GAME_OVER_MESSAGE_HEIGTH, DISPLAY_GAME_OVER_MESSAGE_X, DISPLAY_GAME_OVER_MESSAGE_Y);
 }
 
-void prepare_game_over_scene(void)
+void prepare_game_over_scene(App* app)
 {
 	SDL_Color background_color = RED_COLOR;
 	SDL_SetRenderDrawColor(app->game_over_renderer, background_color.r, background_color.g, background_color.b, background_color.a);
 	SDL_RenderClear(app->game_over_renderer);
 }
 
-void present_game_over_scene(void)
+void present_game_over_scene(App* app)
 {
 	char* game_over_text = "Game Over! Press q or Esc to quit";
 	show_text(app->game_over_message, app->game_over_renderer, game_over_text);
@@ -275,13 +274,13 @@ void present_game_over_scene(void)
 	SDL_RenderPresent(app->game_over_renderer);
 }
 
-void handle_input_game_over(SDL_Keycode code) {
+void handle_input_game_over(App* app, SDL_Keycode code) {
 	if (code == SDLK_ESCAPE || code == SDLK_q) {
-		cleanup();
+		app->quit = true;
 	}
 }
 
-void do_input_game_over(void)
+void do_input_game_over(App* app)
 {
 	SDL_Event event;
 
@@ -290,10 +289,10 @@ void do_input_game_over(void)
 		switch (event.type)
 		{
 			case SDL_QUIT:
-				cleanup();
+				app->quit = true;
 				break;
 			case SDL_KEYDOWN:
-				handle_input_game_over(event.key.keysym.sym);
+				handle_input_game_over(app, event.key.keysym.sym);
 				break;
 			default:
 				break;
