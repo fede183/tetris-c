@@ -1,4 +1,4 @@
-#include "classes/text_box.h"
+#include "../classes/text_box.h"
 
 void _clean_text_sdl(TextBox* text_box) {
 	if (text_box->font) {

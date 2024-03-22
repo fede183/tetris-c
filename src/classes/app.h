@@ -12,6 +12,8 @@ typedef struct {
 	TextBox* score;
 	TextBox* game_over_message;
 	Mix_Music* music;
+	Game* game;
+	bool quit;
 } App;
 
 #endif //APP_H

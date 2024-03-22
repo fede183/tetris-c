@@ -5,33 +5,33 @@
 
 int main(int argc, char *argv[])
 {
-	app = (App*) malloc(sizeof(App));
+	App* app = init_SDL();
 
-	init_SDL();
-
-	while (!is_quit() && !check_game_over())
+	while (!is_quit(app) && !check_game_over(app))
 	{
-		prepare_scene();
-		present_scene();
+		prepare_scene(app);
+		present_scene(app);
 
-		cycle();
+		cycle(app);
 
-		do_input();
+		do_input(app);
 	}
 
-	if (!is_quit() && check_game_over()) {
-		init_game_over();
+	if (!is_quit(app) && check_game_over(app)) {
+		init_game_over(app);
 	}
 
-	while(!is_quit()) {
-		prepare_scene();
-		present_scene();
+	while(!is_quit(app)) {
+		prepare_scene(app);
+		present_scene(app);
 
-		prepare_game_over_scene();
-		present_game_over_scene();
+		prepare_game_over_scene(app);
+		present_game_over_scene(app);
 		
-		do_input_game_over();
+		do_input_game_over(app);
 	}
+
+	cleanup(app);
 
 	return 0;
 }
