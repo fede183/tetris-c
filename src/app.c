@@ -1,6 +1,5 @@
 #include <stdbool.h>  
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
@@ -134,7 +133,7 @@ void present_scene(App* app)
 	sprintf(score_text, "Score: %d", app->game->score);
 	show_text(app->score, app->renderer, score_text);
 
-	//init_rectagle_with_fill(app->renderer, DISPLAY_BOARD_WIDTH, DISPLAY_BOARD_HEIGTH, DISPLAY_BOARD_X, DISPLAY_BOARD_Y, (SDL_Color) BLACK_COLOR);
+	init_rectagle_with_fill(app->renderer, DISPLAY_BOARD_WIDTH, DISPLAY_BOARD_HEIGTH, DISPLAY_BOARD_X, DISPLAY_BOARD_Y, (SDL_Color) BLACK_COLOR);
 	init_rectagle_with_fill(app->renderer, DISPLAY_NEXT_PIECE_BLOCK_WIDTH, DISPLAY_NEXT_PIECE_BLOCK_HEIGTH, DISPLAY_NEXT_PIECE_BLOCK_POSITION_X, DISPLAY_NEXT_PIECE_BLOCK_POSITION_Y, (SDL_Color) BLACK_COLOR);
 
 	int row_size = app->game->board->board_row_size;
@@ -144,7 +143,7 @@ void present_scene(App* app)
 		for (int y = INVISIBLE_BOARD; y < row_size; y++) {
 			unsigned int display_x = SQUARE_SIZE*(x + 1);
 			unsigned int display_y = SQUARE_SIZE*(y+HEADER);
-			init_rectagle_without_fill(app->renderer, SQUARE_SIZE, SQUARE_SIZE, display_x, display_y, (SDL_Color) BLACK_COLOR);
+			init_rectagle_without_fill(app->renderer, SQUARE_SIZE, SQUARE_SIZE, display_x, display_y, (SDL_Color) GREY_COLOR);
 		}
 	}
 
@@ -196,7 +195,7 @@ void draw_point(App* app, PointOnBoard point) {
 		return;
 	}
 
-	init_rectagle_without_fill(app->renderer, SQUARE_SIZE, SQUARE_SIZE, display_x, display_y, SDLColors[point.point_color]);
+	init_rectagle_with_fill(app->renderer, SQUARE_SIZE, SQUARE_SIZE, display_x, display_y, SDLColors[point.point_color]);
 }
 
 void handle_input(App* app, SDL_Keycode code) {
