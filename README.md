@@ -1,6 +1,8 @@
 Tetris c in SDL2
 ================
 
+![image](docs/capture.jpg)
+
 # Tools
 
 - SDL2
