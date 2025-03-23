@@ -1,6 +1,8 @@
 #!/bin/sh
 
-[ -d build ] && rm -rf build
+[ -d build ] && sudo rm -rf build
+
+sudo vcpkg install
 
 sudo cmake --preset=default
 

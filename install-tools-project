@@ -1,5 +1,4 @@
 #!/bin/sh
 
-yay vcpkg
-
-conan profile detect --force
+sudo pacman  -S python-jinja
+yay vcpkg-git

@@ -3,7 +3,6 @@
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
-#include <callback.h>
 
 #include "renderers/text_renderer.c"
 #include "renderers/rectagle_renderer.c"
