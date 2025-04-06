@@ -2,6 +2,7 @@
 #include "classes/piece.h"
 #include "classes/game.h"
 #include "board.c"
+#include <math.h>
 
 Game* init_game() {
     Game* new_game = (Game*) malloc(sizeof(Game));
@@ -98,13 +99,20 @@ void rotate(Game* game) {
 	Piece* old_piece = (Piece*) malloc(sizeof(Piece));
 	copy(piece, old_piece);
 
-	PointOnBoard center_point = get_center_point(piece);
+	CenterPoint center_point = piece->center_point;
+	double beta = M_PI / 2.0;
+	double beta_cos = cos(beta);
+	double beta_sin = sin(beta);
 	
 	for (int i = 0; i < 4; i++) {
-		unsigned int rotate_x = piece->positions[i].y - center_point.y;
-		unsigned int rotate_y = piece->positions[i].x - center_point.x;         
-		piece->positions[i].x = center_point.x - rotate_x;
-		piece->positions[i].y =  center_point.y + rotate_y;
+		int rotate_x = piece->positions[i].x - center_point.x;
+		int rotate_y = - (piece->positions[i].y - center_point.y);
+
+		int prima_x = (rotate_x * beta_cos) - (rotate_y * beta_sin);
+		int prima_y = (rotate_x * beta_sin) + (rotate_y * beta_cos);
+
+		piece->positions[i].x = center_point.x + prima_x;
+		piece->positions[i].y = center_point.y - prima_y;
 	}
 
 	while (has_colitions_border_left(game->board, piece)) {

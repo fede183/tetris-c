@@ -237,7 +237,7 @@ void do_input(App* app)
 
 void cycle(App* app) {
 	descend(app->game);
-	SDL_Delay(100);
+	SDL_Delay(1000);
 }
 
 // Game Over Window
