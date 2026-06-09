@@ -9,10 +9,10 @@ find_package(SDL2_mixer REQUIRED CONFIG)
 add_executable(tetris-c src/main.c)
 
 # Main SDL library for init
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main SDL2::SDL2-static)
+target_link_libraries(${PROJECT_NAME} SDL2::SDL2)
 
 # SDL ttf so we can display hello world!
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_ttf::SDL2_ttf-static)
+target_link_libraries(${PROJECT_NAME} SDL2_ttf::SDL2_ttf)
 
 # SDL mixer for music
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_mixer::SDL2_mixer-static)
+target_link_libraries(${PROJECT_NAME} SDL2_mixer::SDL2_mixer)

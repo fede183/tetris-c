@@ -1,9 +1,9 @@
 #!/bin/sh
 
-[ -d build ] && sudo rm -rf build
+[ -d build ] && rm -rf build
 
-sudo vcpkg install
+mkdir build
 
-sudo cmake --preset=default
+cmake --preset=default
 
-sudo cmake --build build
+cmake --build build
