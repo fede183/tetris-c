@@ -16,3 +16,6 @@ target_link_libraries(${PROJECT_NAME} SDL2_ttf::SDL2_ttf)
 
 # SDL mixer for music
 target_link_libraries(${PROJECT_NAME} SDL2_mixer::SDL2_mixer)
+
+# math
+target_link_libraries(${PROJECT_NAME} m)
