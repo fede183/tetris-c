@@ -29,11 +29,17 @@ void clean_game(Game* game) {
     	free(game);
 }
 
-void _ascend(Game* game) {
-	for (int i = 0; i < 4; i++) {
- 		game->piece->positions[i].y -= 1;
+void _move(Piece* piece, int x, int y) {
+	for (unsigned int i = 0; i < 4; i++) {
+ 		piece->positions[i].x += x;
+ 		piece->positions[i].y += y;
     	}
-	game->piece->center_point.y -= 1;
+	piece->center_point.x += x;
+	piece->center_point.y += y;
+}
+
+void _ascend(Game* game) {
+	_move(game->piece, 0, -1);
 }
 
 void check_state(Game* game) {
@@ -41,7 +47,7 @@ void check_state(Game* game) {
 	_ascend(game);
         add_piece(game->board, game->piece);
         // Check Board for complete lines
-        int complete_lines_quantity = delete_all_complete_lines(game->board);
+        unsigned int complete_lines_quantity = delete_all_complete_lines(game->board);
         const unsigned int scores[4] = {40, 100, 300, 1200};
 
         game->score += scores[complete_lines_quantity - 1];
@@ -55,48 +61,35 @@ void check_state(Game* game) {
 }
 
 void move_left(Game* game) {
-	Piece piece_copy = *(game->piece);
-    	for (int i = 0; i < 4; i++) {
-        	piece_copy.positions[i].x -= 1;
-	}
-    	if (!has_colitions_border_or_remains(game->board, &piece_copy)) {
-		copy(&piece_copy, game->piece);
-		game->piece->center_point.x -= 1;
+	Piece* piece_copy = game->piece;
+	_move(piece_copy, -1, 0);
+
+    	if (!has_colitions_border_or_remains(game->board, piece_copy)) {
+		copy(piece_copy, game->piece);
 	}
 }
 
 void move_right(Game* game) {
-	Piece piece_copy = *(game->piece);
-    	for (int i = 0; i < 4; i++) {
-		piece_copy.positions[i].x += 1;
-	}
-    	if (!has_colitions_border_or_remains(game->board, &piece_copy)) {
-		copy(&piece_copy, game->piece);
-		game->piece->center_point.x += 1;
+	Piece* piece_copy = game->piece;
+	_move(piece_copy, 1, 0);
+
+    	if (!has_colitions_border_or_remains(game->board, piece_copy)) {
+		copy(piece_copy, game->piece);
 	}
 }
 
 void _move_left_no_colitions(Game* game) {
 	Piece* piece = game->piece;
-    	for (int i = 0; i < 4; i++) {
-		piece->positions[i].x -= 1;
-	}
-	piece->center_point.x -= 1;
+	_move(piece, -1, 0);
 }
 
 void _move_right_no_colitions(Game* game) {
 	Piece* piece = game->piece;
-    	for (int i = 0; i < 4; i++) {
-		piece->positions[i].x += 1;
-	}
-	piece->center_point.x += 1;
+	_move(piece, 1, 0);
 }
 
 void descend(Game* game) {
-	for (int i = 0; i < 4; i++) {
- 		game->piece->positions[i].y += 1;
-    	}
-	game->piece->center_point.y += 1;
+	_move(game->piece, 0, 1);
 	check_state(game);
 }
 
