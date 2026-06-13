@@ -67,18 +67,18 @@ App* init_SDL()
 		exit(1);
 	}
 
-	app->music = Mix_LoadMUS(MUSIC_FILE);
+	/* app->music = Mix_LoadMUS(MUSIC_FILE); */
 
-	if (!app->music)
-	{
-		printf("Failed to create renderer: %s\n", SDL_GetError());
-		exit(1);
-	}
+	/* if (!app->music) */
+	/* { */
+	/* 	printf("Failed to create renderer: %s\n", SDL_GetError()); */
+	/* 	exit(1); */
+	/* } */
 
-	if (Mix_PlayMusic(app->music, -1) == -1) {
-		printf("Failed to play music: %s\n", SDL_GetError());
-		exit(1);
-        }
+	/* if (Mix_PlayMusic(app->music, -1) == -1) { */
+	/* 	printf("Failed to play music: %s\n", SDL_GetError()); */
+	/* 	exit(1); */
+        /* } */
 
 	app->score = init_text(DISPLAY_SCORE_WIGTH, DISPLAY_SCORE_HEIGTH, DISPLAY_SCORE_X, DISPLAY_SCORE_Y);
 
@@ -237,7 +237,7 @@ void do_input(App* app)
 
 void cycle(App* app) {
 	descend(app->game);
-	SDL_Delay(1000);
+	SDL_Delay(500);
 }
 
 // Game Over Window

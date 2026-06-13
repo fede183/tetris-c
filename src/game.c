@@ -33,6 +33,7 @@ void _ascend(Game* game) {
 	for (int i = 0; i < 4; i++) {
  		game->piece->positions[i].y -= 1;
     	}
+	game->piece->center_point.y -= 1;
 }
 
 void check_state(Game* game) {
@@ -60,6 +61,7 @@ void move_left(Game* game) {
 	}
     	if (!has_colitions_border_or_remains(game->board, &piece_copy)) {
 		copy(&piece_copy, game->piece);
+		game->piece->center_point.x -= 1;
 	}
 }
 
@@ -70,6 +72,7 @@ void move_right(Game* game) {
 	}
     	if (!has_colitions_border_or_remains(game->board, &piece_copy)) {
 		copy(&piece_copy, game->piece);
+		game->piece->center_point.x += 1;
 	}
 }
 
@@ -78,6 +81,7 @@ void _move_left_no_colitions(Game* game) {
     	for (int i = 0; i < 4; i++) {
 		piece->positions[i].x -= 1;
 	}
+	piece->center_point.x -= 1;
 }
 
 void _move_right_no_colitions(Game* game) {
@@ -85,12 +89,14 @@ void _move_right_no_colitions(Game* game) {
     	for (int i = 0; i < 4; i++) {
 		piece->positions[i].x += 1;
 	}
+	piece->center_point.x += 1;
 }
 
 void descend(Game* game) {
 	for (int i = 0; i < 4; i++) {
  		game->piece->positions[i].y += 1;
     	}
+	game->piece->center_point.y += 1;
 	check_state(game);
 }
 
@@ -105,14 +111,14 @@ void rotate(Game* game) {
 	double beta_sin = sin(beta);
 	
 	for (int i = 0; i < 4; i++) {
-		int rotate_x = piece->positions[i].x - center_point.x;
-		int rotate_y = - (piece->positions[i].y - center_point.y);
+		double rotate_x = ((double) piece->positions[i].x) - center_point.x;
+		double rotate_y = - (((double) piece->positions[i].y) - center_point.y);
 
-		int prima_x = (rotate_x * beta_cos) - (rotate_y * beta_sin);
-		int prima_y = (rotate_x * beta_sin) + (rotate_y * beta_cos);
+		double prima_x = (rotate_x * beta_cos) - (rotate_y * beta_sin);
+		double prima_y = (rotate_x * beta_sin) + (rotate_y * beta_cos);
 
-		piece->positions[i].x = center_point.x + prima_x;
-		piece->positions[i].y = center_point.y - prima_y;
+		piece->positions[i].x = (int) (center_point.x + prima_x);
+		piece->positions[i].y = (int) (center_point.y - prima_y);
 	}
 
 	while (has_colitions_border_left(game->board, piece)) {
