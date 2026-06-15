@@ -99,19 +99,19 @@ void rotate(Game* game) {
 	copy(piece, old_piece);
 
 	CenterPoint center_point = piece->center_point;
-	double beta = M_PI / 2.0;
-	double beta_cos = cos(beta);
-	double beta_sin = sin(beta);
+	float beta = M_PI / 2.0;
+	float beta_cos = cos(beta);
+	float beta_sin = sin(beta);
 	
 	for (int i = 0; i < 4; i++) {
-		double rotate_x = ((double) piece->positions[i].x) - center_point.x;
-		double rotate_y = - (((double) piece->positions[i].y) - center_point.y);
+		float rotate_x = ((float) piece->positions[i].x) - center_point.x;
+		float rotate_y = - (((float) piece->positions[i].y) - center_point.y);
 
-		double prima_x = (rotate_x * beta_cos) - (rotate_y * beta_sin);
-		double prima_y = (rotate_x * beta_sin) + (rotate_y * beta_cos);
+		float prima_x = (rotate_x * beta_cos) - (rotate_y * beta_sin);
+		float prima_y = (rotate_x * beta_sin) + (rotate_y * beta_cos);
 
-		piece->positions[i].x = (int) (center_point.x + prima_x);
-		piece->positions[i].y = (int) (center_point.y - prima_y);
+		piece->positions[i].x = round(center_point.x + prima_x);
+		piece->positions[i].y = round(center_point.y - prima_y);
 	}
 
 	while (has_colitions_border_left(game->board, piece)) {
