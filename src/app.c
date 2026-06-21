@@ -22,6 +22,7 @@ void prepare_scene(App*);
 void present_scene(App*);
 void draw_game_state(App*);
 void draw_piece(App*, Piece*);
+void draw_next_piece(App*, Piece*);
 void draw_occupied_points(App*);
 void draw_point(App*, PointOnBoard);
 bool check_game_over(App*);
@@ -153,20 +154,10 @@ void present_scene(App* app)
 void draw_game_state(App* app) {
 	Piece* piece = app->game->piece;
 	Piece* next_piece = app->game->next_piece;
-	Piece* next_piece_copy = (Piece*) malloc(sizeof(Piece));
-	copy(next_piece, next_piece_copy);
-	
-	for (unsigned int i = 0; i<4; i++) {
-		PointOnBoard point = next_piece_copy->positions[i];
-		point.y = point.y + NEXT_PIECE_BLOCK_Y + 1;
-		point.x = point.x + NEXT_PIECE_BLOCK_X + 1;
-		draw_point(app, point);
-	}
 	
 	draw_piece(app, piece);
-	draw_piece(app, next_piece_copy);
+	draw_next_piece(app, next_piece);
 	draw_occupied_points(app);
-	free(next_piece_copy);
 }
 
 void draw_piece(App* app, Piece* piece) {
@@ -174,6 +165,23 @@ void draw_piece(App* app, Piece* piece) {
 		PointOnBoard point = piece->positions[i];
 		draw_point(app, point);
 	}
+}
+
+void draw_next_piece(App* app, Piece* next_piece) {
+	Piece* next_piece_copy = (Piece*) malloc(sizeof(Piece));
+	copy(next_piece, next_piece_copy);
+	
+	for (unsigned int i = 0; i<4; i++) {
+		PointOnBoard point = next_piece_copy->positions[i];
+		unsigned int centered_next_piece_y = (unsigned int) (NEXT_PIECE_BLOCK_Y_CENTER - next_piece_copy->center_point.y);
+		unsigned int centered_next_piece_x = (unsigned int) (NEXT_PIECE_BLOCK_X_CENTER - next_piece_copy->center_point.x);
+		point.y = point.y + centered_next_piece_y;
+		point.x = point.x + centered_next_piece_x;
+		draw_point(app, point);
+	}
+
+	draw_piece(app, next_piece_copy);
+	free(next_piece_copy);
 }
 
 void draw_occupied_points(App* app) {

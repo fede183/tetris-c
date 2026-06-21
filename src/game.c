@@ -47,7 +47,7 @@ void check_state(Game* game) {
 	_ascend(game);
         add_piece(game->board, game->piece);
         // Check Board for complete lines
-        unsigned int complete_lines_quantity = delete_all_complete_lines(game->board);
+        const unsigned int complete_lines_quantity = delete_all_complete_lines(game->board);
         const unsigned int scores[4] = {40, 100, 300, 1200};
 
         game->score += scores[complete_lines_quantity - 1];
@@ -103,7 +103,7 @@ void rotate(Game* game) {
 	float beta_cos = cos(beta);
 	float beta_sin = sin(beta);
 	
-	for (int i = 0; i < 4; i++) {
+	for (unsigned int i = 0; i < 4; i++) {
 		float rotate_x = ((float) piece->positions[i].x) - center_point.x;
 		float rotate_y = - (((float) piece->positions[i].y) - center_point.y);
 
@@ -151,23 +151,6 @@ unsigned int get_point_quantity(Game* game) {
     }
 
     return point_quantity + 4;
-}
-
-PointOnBoard* get_next_piece_points(Game* game) {
-
-    PointOnBoard* points = (PointOnBoard*) malloc(sizeof(PointOnBoard) * 4);
-
-    for (unsigned int i = 0; i < 4; i++)
-    {
-        PointOnBoard point = game->next_piece->positions[i];
-
-        point.x += NEXT_PIECE_BLOCK_X + 2;
-        point.y += NEXT_PIECE_BLOCK_Y;
-
-        points[i] = point;
-    }
-
-    return points;
 }
 
 PointOnBoard* get_all_points(Game* game) {
