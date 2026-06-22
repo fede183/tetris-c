@@ -85,6 +85,7 @@ App* init_SDL()
 
 	app->game = init_game();
 	app->quit = false;
+	app->input_event_being_handle = false;
 
 	return app;
 }
@@ -221,13 +222,14 @@ void handle_input(App* app, SDL_Keycode code) {
 	else if (code == SDLK_SPACE) {
 		rotate(app->game);
 	}
+	app->input_event_being_handle = true;
 }
 
 void do_input(App* app)
 {
 	SDL_Event event;
 
-	while (SDL_PollEvent(&event))
+	while (SDL_PollEvent(&event) && !app->input_event_being_handle)
 	{
 		switch (event.type)
 		{
@@ -246,6 +248,7 @@ void do_input(App* app)
 void cycle(App* app) {
 	descend(app->game);
 	SDL_Delay(1000);
+	app->input_event_being_handle = false;
 }
 
 // Game Over Window

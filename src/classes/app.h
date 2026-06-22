@@ -14,6 +14,7 @@ typedef struct {
 	Mix_Music* music;
 	Game* game;
 	bool quit;
+	bool input_event_being_handle;
 } App;
 
 #endif //APP_H
