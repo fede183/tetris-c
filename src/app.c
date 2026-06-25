@@ -229,8 +229,12 @@ void do_input(App* app)
 {
 	SDL_Event event;
 
-	while (SDL_PollEvent(&event) && !app->input_event_being_handle)
+	while (SDL_PollEvent(&event))
 	{
+		if (app->input_event_being_handle) {
+			continue;
+		}
+
 		switch (event.type)
 		{
 			case SDL_QUIT:

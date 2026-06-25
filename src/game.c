@@ -38,6 +38,13 @@ void _move(Piece* piece, int x, int y) {
 	piece->center_point.y += y;
 }
 
+void _verify_piece_after_move(Game* game, Piece* piece) {
+    	if (!has_colitions_border_or_remains(game->board, piece)) {
+		free(game->piece);
+		game->piece = piece;
+	}
+}
+
 void _ascend(Game* game) {
 	_move(game->piece, 0, -1);
 }
@@ -61,21 +68,17 @@ void check_state(Game* game) {
 }
 
 void move_left(Game* game) {
-	Piece* piece_copy = game->piece;
+	Piece* piece_copy = (Piece*) malloc(sizeof(Piece));
+	copy(game->piece, piece_copy);
 	_move(piece_copy, -1, 0);
-
-    	if (!has_colitions_border_or_remains(game->board, piece_copy)) {
-		copy(piece_copy, game->piece);
-	}
+	_verify_piece_after_move(game, piece_copy);
 }
 
 void move_right(Game* game) {
-	Piece* piece_copy = game->piece;
+	Piece* piece_copy = (Piece*) malloc(sizeof(Piece));
+	copy(game->piece, piece_copy);
 	_move(piece_copy, 1, 0);
-
-    	if (!has_colitions_border_or_remains(game->board, piece_copy)) {
-		copy(piece_copy, game->piece);
-	}
+	_verify_piece_after_move(game, piece_copy);
 }
 
 void _move_left_no_colitions(Game* game) {
