@@ -251,7 +251,8 @@ void do_input(App* app)
 
 void cycle(App* app) {
 	descend(app->game);
-	SDL_Delay(1000);
+	unsigned int cycle_delay = CYCLE_DELAYS[app->game->level - 1];
+	SDL_Delay(cycle_delay);
 	app->input_event_being_handle = false;
 }
 

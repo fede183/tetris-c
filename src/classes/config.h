@@ -78,3 +78,7 @@
 
 // Audio
 #define MUSIC_FILE "../sounds/theme.wav"
+
+// Times
+#define CYCLE_DELAYS (unsigned int[]){1000, 800, 600, 400}
+#define INPUT_DELAY 200
