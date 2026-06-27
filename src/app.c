@@ -178,7 +178,6 @@ void draw_next_piece(App* app, Piece* next_piece) {
 		unsigned int centered_next_piece_x = (unsigned int) (NEXT_PIECE_BLOCK_X_CENTER - next_piece_copy->center_point.x);
 		point.y = point.y + centered_next_piece_y;
 		point.x = point.x + centered_next_piece_x;
-		draw_point(app, point);
 	}
 
 	draw_piece(app, next_piece_copy);
@@ -250,10 +249,18 @@ void do_input(App* app)
 }
 
 void cycle(App* app) {
-	descend(app->game);
-	unsigned int cycle_delay = CYCLE_DELAYS[app->game->level - 1];
-	SDL_Delay(cycle_delay);
+	SDL_Delay(CYCLE_DELAY);
 	app->input_event_being_handle = false;
+	app->game->current_cycle++;
+
+	unsigned int level = app->game->level;
+	unsigned int current_cycle = app->game->current_cycle;
+	unsigned int expected_descend_cycle = (1 + MAX_LEVEL - level);
+
+	if (expected_descend_cycle == current_cycle) {
+		descend(app->game);
+		app->game->current_cycle = 0;
+	}
 }
 
 // Game Over Window

@@ -14,6 +14,7 @@ Game* init_game() {
     new_game->score = 0;
     new_game->level = 1;
     new_game->complete_lines = 0;
+    new_game->current_cycle = 0;
 
     return new_game;
 }
@@ -55,12 +56,9 @@ void check_state(Game* game) {
         add_piece(game->board, game->piece);
         // Check Board for complete lines
         const unsigned int complete_lines_quantity = delete_all_complete_lines(game->board);
-        const unsigned int scores[4] = {40, 100, 300, 1200};
 
-        game->score += scores[complete_lines_quantity - 1];
-	if (game->level < 4) {
-        	game->complete_lines += complete_lines_quantity;
-	}
+        game->score += SCORES_PER_COMPLETE_LINES[complete_lines_quantity];
+        game->complete_lines += complete_lines_quantity;
 
         // Get next piece
         copy(game->next_piece, game->piece);
