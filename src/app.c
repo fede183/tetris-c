@@ -178,9 +178,9 @@ void draw_next_piece(App* app, Piece* next_piece) {
 		unsigned int centered_next_piece_x = (unsigned int) (NEXT_PIECE_BLOCK_X_CENTER - next_piece_copy->center_point.x);
 		point.y = point.y + centered_next_piece_y;
 		point.x = point.x + centered_next_piece_x;
+		draw_point(app, point);
 	}
 
-	draw_piece(app, next_piece_copy);
 	free(next_piece_copy);
 }
 
